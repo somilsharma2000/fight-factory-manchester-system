@@ -1,0 +1,2520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fight Factory Manchester | Member Portal</title>
+    <!-- Google Fonts: Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-deep: #050506;
+            --bg-base: #0A0A0C;
+            --bg-card: #16161A;
+            --bg-card-hover: #1E1E24;
+            --accent-red: #DC2626;
+            --accent-red-glow: rgba(220, 38, 38, 0.35);
+            --accent-gold: #F59E0B;
+            --accent-gold-glow: rgba(245, 158, 11, 0.3);
+            --success: #22C55E;
+            --text-main: #FAFAFA;
+            --text-muted: #8E8E93;
+            --text-dim: #5A5A5E;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-light: rgba(255, 255, 255, 0.12);
+            --font-family: 'Space Grotesk', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A2A32;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-red);
+        }
+
+        /* Typography Helper */
+        h1, h2, h3, h4, h5, h6 {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+            color: #FFF;
+            box-shadow: 0 4px 15px var(--accent-red-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+            background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-light);
+        }
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: #000;
+            box-shadow: 0 4px 15px var(--accent-gold-glow);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-outline-danger {
+            background: transparent;
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            color: #F87171;
+        }
+        .btn-outline-danger:hover {
+            background: rgba(220, 38, 38, 0.15);
+            border-color: var(--accent-red);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.78rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-red {
+            background: rgba(220, 38, 38, 0.15);
+            color: #F87171;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+        }
+
+        .badge-gold {
+            background: rgba(245, 158, 11, 0.15);
+            color: #FBBF24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-green {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ADE80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        /* -------------------------------------------------------------
+           LOGIN OVERLAY SCREEN
+        ------------------------------------------------------------- */
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: radial-gradient(circle at center, #111116 0%, #050506 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        #login-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(220, 38, 38, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+        }
+
+        .login-brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-brand i {
+            font-size: 2.8rem;
+            color: var(--accent-red);
+            filter: drop-shadow(0 0 10px var(--accent-red-glow));
+            margin-bottom: 12px;
+        }
+
+        .login-brand h2 {
+            font-size: 1.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+        }
+
+        .login-brand p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-base);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red-glow);
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            margin-bottom: 24px;
+        }
+
+        .login-options label {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .login-options a {
+            color: var(--accent-red);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .login-options a:hover {
+            text-decoration: underline;
+            color: #EF4444;
+        }
+
+        /* -------------------------------------------------------------
+           APP LAYOUT SHELL
+        ------------------------------------------------------------- */
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--bg-deep);
+        }
+
+        /* Sidebar Nav */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-base);
+            border-right: 1px solid var(--border-subtle);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .sidebar-header i {
+            font-size: 1.8rem;
+            color: var(--accent-red);
+        }
+
+        .sidebar-brand-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .sidebar-brand-sub {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+        }
+
+        .member-mini-card {
+            margin: 16px;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .member-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-red), #500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #FFF;
+            border: 2px solid var(--accent-red);
+            position: relative;
+        }
+
+        .member-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            border: 2px solid var(--bg-card);
+        }
+
+        .member-info h4 {
+            font-size: 0.88rem;
+            color: var(--text-main);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .member-info p {
+            font-size: 0.72rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 10px 14px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: var(--bg-card);
+        }
+
+        .nav-item.active {
+            color: #FFF;
+            background: var(--bg-card);
+            border-left-color: var(--accent-red);
+            box-shadow: inset 0 0 15px rgba(220, 38, 38, 0.1);
+        }
+
+        .nav-item .badge-count {
+            margin-left: auto;
+            background: var(--accent-red);
+            color: #FFF;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* Top Header */
+        .top-header {
+            height: 70px;
+            background: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title h2 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .next-class-countdown {
+            background: rgba(220, 38, 38, 0.12);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 30px;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .next-class-countdown i {
+            color: var(--accent-red);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.2);
+            color: var(--accent-red);
+        }
+
+        .icon-btn .dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--accent-red);
+        }
+
+        /* Container View Body */
+        .content-area {
+            padding: 30px;
+            flex: 1;
+            padding-bottom: 100px;
+        }
+
+        .portal-view {
+            display: none;
+            animation: fadeIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .portal-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid Containers */
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .col-12 { grid-column: span 12; }
+        .col-8 { grid-column: span 8; }
+        .col-6 { grid-column: span 6; }
+        .col-4 { grid-column: span 4; }
+        .col-3 { grid-column: span 3; }
+
+        /* Card Styles */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .card-header h3 {
+            font-size: 1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header h3 i {
+            color: var(--accent-red);
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover::after {
+            background: var(--accent-red);
+        }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: var(--radius-sm);
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            color: var(--accent-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.gold {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+            color: var(--accent-gold);
+        }
+
+        .stat-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .stat-content h5 {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 4px 0;
+        }
+
+        .stat-subtext {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Hero Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.18) 0%, rgba(22, 22, 26, 0.95) 100%), var(--bg-card);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--accent-red-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .welcome-text h2 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #FFF, #D1D5DB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-text p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            max-width: 580px;
+        }
+
+        .quote-box {
+            margin-top: 12px;
+            font-style: italic;
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Class Cards & Timetable */
+        .class-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            transition: var(--transition);
+        }
+
+        .class-card:hover {
+            border-color: rgba(220, 38, 38, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+        }
+
+        .class-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .class-title {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .class-trainer {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .class-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.82rem;
+            color: var(--text-main);
+            background: var(--bg-base);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+        }
+
+        .capacity-bar-container {
+            margin-top: 4px;
+        }
+
+        .capacity-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .progress-bar-bg {
+            height: 6px;
+            background: var(--bg-base);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        /* Achievement Badge Cards */
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .badge-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .badge-card.unlocked {
+            border-color: rgba(245, 158, 11, 0.4);
+            background: radial-gradient(circle at top, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 70%);
+        }
+
+        .badge-card.locked {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        .badge-icon-lg {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: rgba(245, 158, 11, 0.15);
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 0 15px var(--accent-gold-glow);
+        }
+
+        .badge-card.locked .badge-icon-lg {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-dim);
+            color: var(--text-dim);
+            box-shadow: none;
+        }
+
+        .badge-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .badge-card p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.88rem;
+        }
+
+        .custom-table th {
+            padding: 12px 16px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .custom-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-main);
+        }
+
+        .custom-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* AI Recommendation Cards */
+        .ai-card {
+            background: linear-gradient(135deg, rgba(22, 22, 26, 0.9) 0%, rgba(10, 10, 12, 0.95) 100%);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .ai-tag {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+            color: #FFF;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        .portal-footer {
+            margin-top: auto;
+            padding: 24px 30px;
+            background: var(--bg-base);
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .portal-footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .portal-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Bottom Nav */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border-subtle);
+            z-index: 1000;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--accent-red);
+        }
+
+        /* Notification Drawer */
+        .notification-drawer {
+            position: fixed;
+            top: 0;
+            right: -380px;
+            width: 360px;
+            height: 100vh;
+            background: var(--bg-card);
+            border-left: 1px solid var(--border-light);
+            z-index: 1000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification-drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .notif-item {
+            padding: 14px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            background: var(--bg-base);
+        }
+
+        .notif-item.unread {
+            border-left: 3px solid var(--accent-red);
+            background: rgba(220, 38, 38, 0.05);
+        }
+
+        /* Toast Popup */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-red);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+            font-size: 0.88rem;
+            animation: slideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .grid-12 { grid-template-columns: repeat(6, 1fr); }
+            .col-8, .col-6, .col-4, .col-3 { grid-column: span 6; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-wrapper { margin-left: 0; width: 100%; }
+            .mobile-bottom-nav { display: flex; }
+            .top-header { padding: 0 16px; }
+            .content-area { padding: 16px; padding-bottom: 90px; }
+            .grid-12 { grid-template-columns: 1fr; }
+            .col-12, .col-8, .col-6, .col-4, .col-3 { grid-column: span 1; }
+            .welcome-banner { flex-direction: column; text-align: center; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN OVERLAY -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-brand">
+                <i class="fa-solid fa-mitten"></i>
+                <h2>FIGHT FACTORY</h2>
+                <p>MANCHESTER MEMBER PORTAL</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-envelope"></i> Member Email</label>
+                    <input type="email" id="login-email" class="form-control" value="jamie.thompson@fightfactory.mcr" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" class="form-control" value="••••••••" required>
+                </div>
+                <div class="login-options">
+                    <label><input type="checkbox" checked> Remember me</label>
+                    <a href="#" onclick="showToast('Password reset link sent to your email!', 'info'); return false;">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
+                </button>
+            </form>
+            <div style="margin-top: 20px; text-align: center;">
+                <p style="font-size: 0.78rem; color: var(--text-muted);">Demonstration Mode: Click Sign In to access Jamie's active portal.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP SHELL -->
+    <div class="app-shell" id="app-shell">
+
+        <!-- DESKTOP SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-mitten"></i>
+                <div>
+                    <div class="sidebar-brand-title">FIGHT FACTORY</div>
+                    <div class="sidebar-brand-sub">MANCHESTER</div>
+                </div>
+            </div>
+
+            <div class="member-mini-card">
+                <div class="member-avatar">JT</div>
+                <div class="member-info">
+                    <h4>Jamie Thompson</h4>
+                    <p><i class="fa-solid fa-shield-halved"></i> FULL MEMBER</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="nav-item active" onclick="switchTab('dashboard', this)">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
+                </a>
+                <a class="nav-item" onclick="switchTab('booking', this)">
+                    <i class="fa-solid fa-calendar-check"></i> Class Booking
+                </a>
+                <a class="nav-item" onclick="switchTab('workout', this)">
+                    <i class="fa-solid fa-dumbbell"></i> Workout Tracker
+                </a>
+                <a class="nav-item" onclick="switchTab('progress', this)">
+                    <i class="fa-solid fa-chart-line"></i> Progress Charts
+                </a>
+                <a class="nav-item" onclick="switchTab('goals', this)">
+                    <i class="fa-solid fa-trophy"></i> Goals & Badges
+                </a>
+                <a class="nav-item" onclick="switchTab('ai-workouts', this)">
+                    <i class="fa-solid fa-brain"></i> AI Coach
+                </a>
+                <a class="nav-item" onclick="switchTab('nutrition', this)">
+                    <i class="fa-solid fa-utensils"></i> Nutrition Log
+                </a>
+                <a class="nav-item" onclick="switchTab('membership', this)">
+                    <i class="fa-solid fa-id-card"></i> Membership
+                </a>
+                <a class="nav-item" onclick="switchTab('profile', this)">
+                    <i class="fa-solid fa-user-gear"></i> Profile
+                </a>
+                <a class="nav-item" onclick="switchTab('referral', this)">
+                    <i class="fa-solid fa-gift"></i> Refer a Friend <span class="badge-count">£100</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN WRAPPER -->
+        <main class="main-wrapper">
+            <!-- TOP HEADER -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h2 id="view-title">Dashboard Overview</h2>
+                </div>
+
+                <div class="next-class-countdown">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span>Next Class: <strong>Comp Sparring</strong> in <span id="countdown-timer">02h 14m 32s</span></span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleNotifications()" title="Notifications">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="dot"></span>
+                    </button>
+                    <button class="icon-btn" onclick="switchTab('profile')" title="Profile">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+
+                <!-- VIEW 1: DASHBOARD HOME -->
+                <section id="view-dashboard" class="portal-view active">
+                    <div class="welcome-banner" style="margin-bottom: 24px;">
+                        <div class="welcome-text">
+                            <h2>WELCOME BACK, JAMIE! 🥊</h2>
+                            <p>You're on a 14-day training streak. Keep the intensity high for Thursday's Sparring Session with Head Coach Sean Krool.</p>
+                            <div class="quote-box">
+                                <i class="fa-solid fa-quote-left"></i> "The hard work starts when you are tired." — Sean Krool (Gym Owner)
+                            </div>
+                        </div>
+                        <div style="text-align: right; z-index: 2;">
+                            <button class="btn btn-primary" onclick="switchTab('booking')">
+                                <i class="fa-solid fa-calendar-plus"></i> Book Next Class
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4 STAT CARDS -->
+                    <div class="grid-12" style="margin-bottom: 24px;">
+                        <div class="col-3">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fa-solid fa-fire"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5>Attendance Streak</h5>
+                                    <div class="stat-value" data-counter="14">14 Days</div>
+                                    <div class="stat-subtext" style="color: var(--success);"><i class="fa-solid fa-arrow-up"></i> Top 5% in gym</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="stat-card">
+                                <div class="stat-icon gold">
+                                    <i class="fa-solid fa-mitten"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5>Classes Attended</h5>
+                                    <div class="stat-value" data-counter="42">42</div>
+                                    <div class="stat-subtext">8 away from 50 Badge</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="stat-card">
+                                <div class="stat-icon green">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5>Calories Burned</h5>
+                                    <div class="stat-value" data-counter="18450">18,450</div>
+                                    <div class="stat-subtext">This Month (Est)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="stat-card">
+                                <div class="stat-icon gold">
+                                    <i class="fa-solid fa-ranking-star"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5>Sparring Level</h5>
+                                    <div class="stat-value">Level 3</div>
+                                    <div class="stat-subtext" style="color: var(--accent-gold);">Certified Ready</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DASHBOARD CONTENT GRID -->
+                    <div class="grid-12">
+                        <!-- Today's Timetable Quick Overview -->
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-calendar-days"></i> Upcoming Gym Timetable</h3>
+                                    <button class="btn btn-secondary btn-sm" onclick="switchTab('booking')">View Full Schedule</button>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-base); border-radius: var(--radius-sm); border-left: 4px solid var(--accent-red);">
+                                        <div>
+                                            <div style="font-weight: 700;">THU 6:00 PM - 8:00 PM</div>
+                                            <div style="font-size: 0.85rem; color: var(--text-muted);">Competition Sparring • Trainer: Sean Krool</div>
+                                        </div>
+                                        <span class="badge badge-red"><i class="fa-solid fa-check"></i> BOOKED</span>
+                                    </div>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-base); border-radius: var(--radius-sm); border-left: 4px solid #3B82F6;">
+                                        <div>
+                                            <div style="font-weight: 700;">FRI 5:30 PM - 7:00 PM</div>
+                                            <div style="font-size: 0.85rem; color: var(--text-muted);">Fitness & Circuits • Trainer: Coach Dave</div>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm" onclick="showToast('Class booked for Friday!', 'success')">Book</button>
+                                    </div>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-base); border-radius: var(--radius-sm); border-left: 4px solid var(--accent-gold);">
+                                        <div>
+                                            <div style="font-weight: 700;">SAT 9:00 AM - 11:00 AM</div>
+                                            <div style="font-size: 0.85rem; color: var(--text-muted);">Foundation Boxing • Trainer: Sean Krool</div>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm" onclick="showToast('Class booked for Saturday!', 'success')">Book</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity Table -->
+                            <div class="card" style="margin-top: 20px;">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity Log</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Activity</th>
+                                                <th>Duration</th>
+                                                <th>Intensity</th>
+                                                <th>Calories</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Aug 2, 2026</td>
+                                                <td>Foundation Boxing</td>
+                                                <td>120 mins</td>
+                                                <td><span class="badge badge-red">High</span></td>
+                                                <td>820 kcal</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jul 30, 2026</td>
+                                                <td>Competition Sparring</td>
+                                                <td>90 mins</td>
+                                                <td><span class="badge badge-red">Extreme</span></td>
+                                                <td>950 kcal</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jul 28, 2026</td>
+                                                <td>Fitness & Circuits</td>
+                                                <td>90 mins</td>
+                                                <td><span class="badge badge-gold">Moderate</span></td>
+                                                <td>680 kcal</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Info Cards -->
+                        <div class="col-4">
+                            <!-- Gym Announcement -->
+                            <div class="card" style="margin-bottom: 20px; border-color: rgba(245, 158, 11, 0.3);">
+                                <div style="display: flex; align-items: center; gap: 8px; color: var(--accent-gold); font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;">
+                                    <i class="fa-solid fa-bullhorn"></i> GYM ANNOUNCEMENT
+                                </div>
+                                <h4 style="font-size: 0.95rem; margin-bottom: 8px;">NEW HEAVY BAGS INSTALLED IN RING 2</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+                                    We've upgraded Ring 2 with 6 new Fairtex water-filled heavy bags. Perfect for power combinations during Open Gym hours.
+                                </p>
+                                <div style="margin-top: 12px; font-size: 0.75rem; color: var(--text-dim);">Posted by Sean Krool • 2 days ago</div>
+                            </div>
+
+                            <!-- Next Achievement Progress -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-trophy"></i> Next Goal Milestone</h3>
+                                </div>
+                                <div style="text-align: center; margin-bottom: 16px;">
+                                    <div class="badge-icon-lg" style="margin-bottom: 8px;">
+                                        <i class="fa-solid fa-award"></i>
+                                    </div>
+                                    <h4>50 Classes Veteran</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);">42 of 50 Classes Completed</p>
+                                </div>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Progress</span>
+                                        <span style="color: var(--accent-gold); font-weight: 700;">84%</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 84%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: CLASS BOOKING -->
+                <section id="view-booking" class="portal-view">
+                    <div class="card" style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                            <div>
+                                <h3>Official Class Schedule & Booking</h3>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Fight Factory Manchester • Owner & Head Trainer: Sean Krool</p>
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn btn-secondary btn-sm" onclick="filterClasses('all')">All</button>
+                                <button class="btn btn-secondary btn-sm" onclick="filterClasses('boxing')">Boxing</button>
+                                <button class="btn btn-secondary btn-sm" onclick="filterClasses('sparring')">Sparring</button>
+                                <button class="btn btn-secondary btn-sm" onclick="filterClasses('fitness')">Fitness</button>
+                                <button class="btn btn-secondary btn-sm" onclick="filterClasses('juniors')">Juniors</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-12" id="class-grid-container">
+                        <!-- Mon Boxing -->
+                        <div class="col-4 class-item boxing">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-red">MON 6:00 PM - 8:00 PM</span>
+                                        <span class="badge badge-gold">£10 / Included</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Foundation Boxing</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Coach: Sean Krool</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Master fundamental footwork, jab-cross combinations, and defensive slipping drills.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>14/15 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 93%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="toggleBookClass(this, 'Foundation Boxing (Mon)')">Book Spot</button>
+                            </div>
+                        </div>
+
+                        <!-- Tue Open Gym -->
+                        <div class="col-4 class-item gym">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-gold">TUE 5:00 PM - 7:00 PM</span>
+                                        <span class="badge badge-green">Open Access</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Open Gym Training</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-dumbbell"></i> Self-Directed / Trainer Supervision</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Access ring, heavy bags, speed bags, and conditioning equipment at your pace.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>8/20 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 40%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="toggleBookClass(this, 'Open Gym (Tue)')">Book Spot</button>
+                            </div>
+                        </div>
+
+                        <!-- Tue Fitness -->
+                        <div class="col-4 class-item fitness">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-red">TUE 7:00 PM - 8:30 PM</span>
+                                        <span class="badge badge-gold">High Cardio</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Fitness & Circuits</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Coach: Dave</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">High-intensity fighter conditioning circuit mixing battle ropes, kettlebells, and heavy bag drills.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>12/15 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 80%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="toggleBookClass(this, 'Fitness & Circuits (Tue)')">Book Spot</button>
+                            </div>
+                        </div>
+
+                        <!-- Wed Boxing -->
+                        <div class="col-4 class-item boxing">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-red">WED 6:00 PM - 8:00 PM</span>
+                                        <span class="badge badge-gold">Technique Focus</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Foundation Boxing</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Coach: Sean Krool</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Focus on body mechanics, counter-punching strategy, and heavy bag combination work.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>15/15 FULL</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 100%; background: #EF4444;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary" onclick="toggleBookClass(this, 'Foundation Boxing Waitlist (Wed)')">Join Waitlist</button>
+                            </div>
+                        </div>
+
+                        <!-- Thu Sparring -->
+                        <div class="col-4 class-item sparring">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-red">THU 6:00 PM - 8:00 PM</span>
+                                        <span class="badge badge-gold">Level 2+ Required</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Competition Sparring</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Head Coach: Sean Krool</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Controlled technical sparring sessions in the ring under strict coach supervision.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>10/12 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 83%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary" style="border-color: var(--success); color: var(--success);" onclick="toggleBookClass(this, 'Competition Sparring (Thu)')"><i class="fa-solid fa-check"></i> Booked</button>
+                            </div>
+                        </div>
+
+                        <!-- Fri Fitness -->
+                        <div class="col-4 class-item fitness">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-red">FRI 5:30 PM - 7:00 PM</span>
+                                        <span class="badge badge-gold">Endurance</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Fitness & Circuits</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Coach: Dave</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">End-of-week conditioning session to build championship cardio and core endurance.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>9/15 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 60%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="toggleBookClass(this, 'Fitness & Circuits (Fri)')">Book Spot</button>
+                            </div>
+                        </div>
+
+                        <!-- Sat Boxing -->
+                        <div class="col-4 class-item boxing">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-red">SAT 9:00 AM - 11:00 AM</span>
+                                        <span class="badge badge-gold">Morning Grind</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Foundation Boxing</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Coach: Sean Krool</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">High energy weekend kick-off session with pad work, sparring drills, and bag work.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>11/15 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 73%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="toggleBookClass(this, 'Foundation Boxing (Sat)')">Book Spot</button>
+                            </div>
+                        </div>
+
+                        <!-- Sat Juniors -->
+                        <div class="col-4 class-item juniors">
+                            <div class="class-card">
+                                <div>
+                                    <div class="class-header">
+                                        <span class="badge badge-gold">SAT 11:00 AM - 12:00 PM</span>
+                                        <span class="badge badge-green">Youth 8-16</span>
+                                    </div>
+                                    <h3 class="class-title" style="margin-top: 10px;">Junior Development</h3>
+                                    <div class="class-trainer"><i class="fa-solid fa-user-ninja"></i> Coach: Sean Krool</div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Building discipline, self-confidence, and fundamental boxing skills for young fighters.</p>
+                                <div class="capacity-bar-container">
+                                    <div class="capacity-label">
+                                        <span>Capacity</span>
+                                        <span>6/12 Booked</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="toggleBookClass(this, 'Junior Development (Sat)')">Book Spot</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: WORKOUT TRACKER -->
+                <section id="view-workout" class="portal-view">
+                    <div class="grid-12" style="margin-bottom: 24px;">
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-plus-circle"></i> Log New Workout Session</h3>
+                                </div>
+                                <form onsubmit="addWorkoutLog(event)" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                    <div>
+                                        <label class="form-group label">Workout Type</label>
+                                        <select id="w-type" class="form-control">
+                                            <option>Foundation Boxing</option>
+                                            <option>Competition Sparring</option>
+                                            <option>Fitness & Circuits</option>
+                                            <option>1-to-1 PT Session</option>
+                                            <option>Open Gym Workout</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="form-group label">Duration (Minutes)</label>
+                                        <input type="number" id="w-duration" class="form-control" value="90" min="15" max="300">
+                                    </div>
+                                    <div>
+                                        <label class="form-group label">Intensity Rating</label>
+                                        <select id="w-intensity" class="form-control">
+                                            <option>High (Championship Pace)</option>
+                                            <option>Moderate (Steady)</option>
+                                            <option>Extreme (Max Effort)</option>
+                                            <option>Light (Recovery)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="form-group label">Rounds Sparred / Heavy Bag</label>
+                                        <input type="number" id="w-rounds" class="form-control" value="8" min="0" max="30">
+                                    </div>
+                                    <div style="grid-column: span 2;">
+                                        <label class="form-group label">Coach Notes / Personal Feeling</label>
+                                        <input type="text" id="w-notes" class="form-control" placeholder="E.g., Great counter-right timing during sparring rounds. Felt strong.">
+                                    </div>
+                                    <div style="grid-column: span 2; text-align: right;">
+                                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Workout to History</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-crown"></i> Personal Records (PRs)</h3>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                        <span><i class="fa-solid fa-dumbbell" style="color: var(--accent-gold);"></i> Bench Press</span>
+                                        <strong style="color: var(--text-main);">105 kg</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                        <span><i class="fa-solid fa-dumbbell" style="color: var(--accent-gold);"></i> Back Squat</span>
+                                        <strong style="color: var(--text-main);">130 kg</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                        <span><i class="fa-solid fa-dumbbell" style="color: var(--accent-gold);"></i> Deadlift</span>
+                                        <strong style="color: var(--text-main);">160 kg</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                        <span><i class="fa-solid fa-mitten" style="color: var(--accent-red);"></i> Max Sparring Rounds</span>
+                                        <strong style="color: var(--accent-gold);">12 Rounds</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                        <span><i class="fa-solid fa-person-running" style="color: var(--success);"></i> 3KM Run Time</span>
+                                        <strong style="color: var(--text-main);">11m 45s</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- History Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-list-check"></i> Complete Workout History</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table" id="workout-history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Workout Type</th>
+                                        <th>Duration</th>
+                                        <th>Rounds</th>
+                                        <th>Intensity</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Aug 2, 2026</td>
+                                        <td>Foundation Boxing</td>
+                                        <td>120 mins</td>
+                                        <td>10 Rounds</td>
+                                        <td><span class="badge badge-red">High</span></td>
+                                        <td>Worked jab-slip counter drills with Coach Sean.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jul 30, 2026</td>
+                                        <td>Competition Sparring</td>
+                                        <td>90 mins</td>
+                                        <td>8 Rounds</td>
+                                        <td><span class="badge badge-red">Extreme</span></td>
+                                        <td>Tested defense against southpaw fighters. Passed well.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jul 28, 2026</td>
+                                        <td>Fitness & Circuits</td>
+                                        <td>90 mins</td>
+                                        <td>-</td>
+                                        <td><span class="badge badge-gold">Moderate</span></td>
+                                        <td>Heavy kettlebell circuit + 500m row sprints.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: PROGRESS CHARTS -->
+                <section id="view-progress" class="portal-view">
+                    <div class="grid-12">
+                        <!-- Weight Trend Chart -->
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-weight-scale"></i> Body Weight & Fat % Progress</h3>
+                                </div>
+                                <div style="height: 280px; position: relative;">
+                                    <canvas id="weightChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strength Lifts Chart -->
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-dumbbell"></i> Big 3 Lifts Progression (KG)</h3>
+                                </div>
+                                <div style="height: 280px; position: relative;">
+                                    <canvas id="strengthChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Attendance Frequency -->
+                        <div class="col-6" style="margin-top: 20px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-calendar-check"></i> Monthly Attendance Frequency</h3>
+                                </div>
+                                <div style="height: 280px; position: relative;">
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Body Measurements Radar -->
+                        <div class="col-6" style="margin-top: 20px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-ruler-combined"></i> Fighter Fitness Assessment Breakdown</h3>
+                                </div>
+                                <div style="height: 280px; position: relative;">
+                                    <canvas id="assessmentChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 5: GOALS & ACHIEVEMENTS -->
+                <section id="view-goals" class="portal-view">
+                    <div class="card" style="margin-bottom: 24px;">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-bullseye"></i> Active Fitness Goals</h3>
+                            <button class="btn btn-primary btn-sm" onclick="showToast('Goal creation modal simulated', 'info')">+ Add Goal</button>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.88rem;">
+                                    <span>Goal 1: Complete 50 Boxing Classes</span>
+                                    <span style="color: var(--accent-gold); font-weight: 700;">42 / 50 Classes (84%)</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 84%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.88rem;">
+                                    <span>Goal 2: Bench Press Target (110 KG)</span>
+                                    <span style="color: var(--accent-gold); font-weight: 700;">105 / 110 KG (95%)</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 95%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.88rem;">
+                                    <span>Goal 3: Spar 100 Total Rounds</span>
+                                    <span style="color: var(--accent-gold); font-weight: 700;">78 / 100 Rounds (78%)</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 78%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Badges -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-award"></i> Gym Achievement Badges</h3>
+                        </div>
+                        <div class="badge-grid">
+                            <div class="badge-card unlocked">
+                                <div class="badge-icon-lg"><i class="fa-solid fa-shield-cat"></i></div>
+                                <h4>First Class Rookie</h4>
+                                <p>Unlocked on March 4, 2024</p>
+                            </div>
+
+                            <div class="badge-card unlocked">
+                                <div class="badge-icon-lg"><i class="fa-solid fa-fire"></i></div>
+                                <h4>10 Classes Fighter</h4>
+                                <p>Unlocked on April 12, 2024</p>
+                            </div>
+
+                            <div class="badge-card unlocked">
+                                <div class="badge-icon-lg"><i class="fa-solid fa-hand-fist"></i></div>
+                                <h4>Sparring Certified</h4>
+                                <p>Approved by Sean Krool</p>
+                            </div>
+
+                            <div class="badge-card locked">
+                                <div class="badge-icon-lg"><i class="fa-solid fa-crown"></i></div>
+                                <h4>50 Classes Legend</h4>
+                                <p>Progress: 42 / 50</p>
+                            </div>
+
+                            <div class="badge-card locked">
+                                <div class="badge-icon-lg"><i class="fa-solid fa-bolt"></i></div>
+                                <h4>100 Classes Centurion</h4>
+                                <p>Progress: 42 / 100</p>
+                            </div>
+
+                            <div class="badge-card unlocked">
+                                <div class="badge-icon-lg"><i class="fa-solid fa-sun"></i></div>
+                                <h4>Early Bird 6AM Club</h4>
+                                <p>Unlocked on May 18, 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 6: AI WORKOUT RECOMMENDATIONS -->
+                <section id="view-ai-workouts" class="portal-view">
+                    <div class="welcome-banner" style="margin-bottom: 24px; border-color: rgba(245, 158, 11, 0.4);">
+                        <div class="welcome-text">
+                            <h2><i class="fa-solid fa-brain" style="color: var(--accent-gold);"></i> AI Fight Assistant Analysis</h2>
+                            <p>Based on your recent attendance (14-day streak) and heavy sparring performance, our AI engine has customized your recommended training focus.</p>
+                        </div>
+                        <button class="btn btn-gold" onclick="generateAIRoutine()"><i class="fa-solid fa-rotate"></i> Refresh Analysis</button>
+                    </div>
+
+                    <div class="grid-12">
+                        <div class="col-4">
+                            <div class="ai-card">
+                                <span class="ai-tag">RECOMMENDED</span>
+                                <h3>Power & Counter Drill</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 10px 0;">Ideal prep before Thursday's Sparring Session.</p>
+                                <ul style="font-size: 0.82rem; color: var(--text-main); margin-left: 18px; line-height: 1.6;">
+                                    <li>3 Rounds Speed Slip Bag</li>
+                                    <li>5 Rounds Heavy Bag (Jab-Cross-Hook)</li>
+                                    <li>4 Sets Kettlebell Swings (24kg)</li>
+                                </ul>
+                                <button class="btn btn-primary btn-sm" style="margin-top: 16px; width: 100%;" onclick="showToast('AI Plan loaded into Workout Tracker!', 'success')">Start Routine</button>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="ai-card">
+                                <span class="ai-tag">CARDIO BOOST</span>
+                                <h3>Fight Cardio Threshold</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 10px 0;">Focus on anaerobic endurance for 3-minute rounds.</p>
+                                <ul style="font-size: 0.82rem; color: var(--text-main); margin-left: 18px; line-height: 1.6;">
+                                    <li>15 Mins Speed Rope Skip</li>
+                                    <li>6 Sets Assault Bike 30s Sprints</li>
+                                    <li>100 Medicine Ball Slams</li>
+                                </ul>
+                                <button class="btn btn-primary btn-sm" style="margin-top: 16px; width: 100%;" onclick="showToast('AI Plan loaded into Workout Tracker!', 'success')">Start Routine</button>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="ai-card">
+                                <span class="ai-tag">RECOVERY</span>
+                                <h3>Active Mobility Protocol</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 10px 0;">Post-sparring muscle recovery & flexibility.</p>
+                                <ul style="font-size: 0.82rem; color: var(--text-main); margin-left: 18px; line-height: 1.6;">
+                                    <li>20 Mins Foam Rolling (Lats & Hips)</li>
+                                    <li>Thoracic Spine Rotations</li>
+                                    <li>Light Sauna & Hydration Session</li>
+                                </ul>
+                                <button class="btn btn-secondary btn-sm" style="margin-top: 16px; width: 100%;" onclick="showToast('Recovery log saved', 'info')">Log Recovery</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 7: NUTRITION TRACKER -->
+                <section id="view-nutrition" class="portal-view">
+                    <div class="grid-12" style="margin-bottom: 24px;">
+                        <!-- Calorie & Macros Banner -->
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-utensils"></i> Daily Macro & Calorie Tracker</h3>
+                                    <span class="badge badge-gold">Target: 2,800 kcal</span>
+                                </div>
+
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+                                    <div style="background: var(--bg-base); padding: 14px; border-radius: var(--radius-sm); text-align: center;">
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">PROTEIN</div>
+                                        <div style="font-size: 1.3rem; font-weight: 700; color: #F87171;">170g / 180g</div>
+                                        <div class="progress-bar-bg" style="margin-top: 6px;"><div class="progress-bar-fill" style="width: 94%;"></div></div>
+                                    </div>
+
+                                    <div style="background: var(--bg-base); padding: 14px; border-radius: var(--radius-sm); text-align: center;">
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">CARBS</div>
+                                        <div style="font-size: 1.3rem; font-weight: 700; color: #60A5FA;">220g / 280g</div>
+                                        <div class="progress-bar-bg" style="margin-top: 6px;"><div class="progress-bar-fill" style="width: 78%; background: #60A5FA;"></div></div>
+                                    </div>
+
+                                    <div style="background: var(--bg-base); padding: 14px; border-radius: var(--radius-sm); text-align: center;">
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">FATS</div>
+                                        <div style="font-size: 1.3rem; font-weight: 700; color: #FBBF24;">55g / 70g</div>
+                                        <div class="progress-bar-bg" style="margin-top: 6px;"><div class="progress-bar-fill" style="width: 78%; background: #FBBF24;"></div></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 style="font-size: 0.9rem; margin-bottom: 12px;">Logged Meals Today</h4>
+                                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;" id="meal-list">
+                                        <li style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                            <span>🍳 4 Eggs, Oats & Banana Shake</span>
+                                            <strong>650 kcal</strong>
+                                        </li>
+                                        <li style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                            <span>🍗 Grilled Chicken Breast, Jasmine Rice & Broccoli</span>
+                                            <strong>820 kcal</strong>
+                                        </li>
+                                        <li style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg-base); border-radius: var(--radius-sm);">
+                                            <span>🥤 Post-Workout Whey Isolate + Honey</span>
+                                            <strong>310 kcal</strong>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Water Intake Tracker -->
+                        <div class="col-4">
+                            <div class="card" style="text-align: center;">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-glass-water" style="color: #60A5FA;"></i> Hydration Goal</h3>
+                                </div>
+                                <div style="font-size: 3rem; font-weight: 700; color: #60A5FA; margin: 10px 0;">
+                                    <span id="water-count">2.75</span> <span style="font-size: 1.2rem;">/ 3.5 L</span>
+                                </div>
+                                <div class="progress-bar-bg" style="height: 12px; margin-bottom: 20px;">
+                                    <div id="water-bar" class="progress-bar-fill" style="width: 78%; background: #60A5FA;"></div>
+                                </div>
+                                <div style="display: flex; gap: 10px; justify-content: center;">
+                                    <button class="btn btn-secondary btn-sm" onclick="addWater(0.25)">+250 ml Glass</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="addWater(0.50)">+500 ml Bottle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 8: MEMBERSHIP & BILLING -->
+                <section id="view-membership" class="portal-view">
+                    <div class="grid-12">
+                        <div class="col-6">
+                            <div class="card" style="border-color: rgba(220, 38, 38, 0.4);">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-id-card"></i> Active Membership Plan</h3>
+                                    <span class="badge badge-green">ACTIVE</span>
+                                </div>
+                                <h2 style="font-size: 1.5rem; color: var(--text-main); margin-bottom: 8px;">FULL GYM & SPARRING MEMBER</h2>
+                                <div style="font-size: 1.8rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 16px;">
+                                    £100 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/ month</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+                                    Includes unlimited access to Foundation Boxing, Sparring, Fitness & Circuits, Open Gym, and locker facilities.
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; margin-bottom: 24px;">
+                                    <div><strong>Renewal Date:</strong> August 28, 2026</div>
+                                    <div><strong>Payment Method:</strong> Visa ending in •••• 4892</div>
+                                    <div><strong>Member ID:</strong> FF-MCR-8842</div>
+                                </div>
+                                <div style="display: flex; gap: 12px;">
+                                    <button class="btn btn-primary" onclick="showToast('Upgrade option initialized', 'info')">Manage Plan</button>
+                                    <button class="btn btn-secondary" onclick="showToast('Receipt sent to email', 'success')">Download Invoice</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-tags"></i> Official Fight Factory Pricing</h3>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="padding: 14px; background: var(--bg-base); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong>Walk-in Class Pass</strong>
+                                            <div style="font-size: 0.78rem; color: var(--text-muted);">Single class attendance</div>
+                                        </div>
+                                        <span style="font-weight: 700; font-size: 1.1rem; color: var(--accent-gold);">£10</span>
+                                    </div>
+
+                                    <div style="padding: 14px; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong style="color: #FFF;">Full Monthly Membership</strong>
+                                            <div style="font-size: 0.78rem; color: var(--text-muted);">Unlimited classes + open gym</div>
+                                        </div>
+                                        <span style="font-weight: 700; font-size: 1.1rem; color: var(--accent-red);">£100 / mo</span>
+                                    </div>
+
+                                    <div style="padding: 14px; background: var(--bg-base); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong>1-to-1 Personal Training</strong>
+                                            <div style="font-size: 0.78rem; color: var(--text-muted);">60 min session with Head Coach Sean Krool</div>
+                                        </div>
+                                        <span style="font-weight: 700; font-size: 1.1rem; color: var(--accent-gold);">£40 / session</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 9: PROFILE -->
+                <section id="view-profile" class="portal-view">
+                    <div class="grid-12">
+                        <div class="col-4">
+                            <div class="card" style="text-align: center;">
+                                <div class="member-avatar" style="width: 80px; height: 80px; font-size: 2rem; margin: 0 auto 16px;">JT</div>
+                                <h3 style="font-size: 1.2rem;">Jamie Thompson</h3>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Member since March 2024</p>
+                                <div style="margin-top: 16px;">
+                                    <span class="badge badge-gold"><i class="fa-solid fa-crown"></i> PRO MEMBER</span>
+                                </div>
+                                <div style="margin-top: 24px; text-align: left; font-size: 0.85rem; display: flex; flex-direction: column; gap: 10px;">
+                                    <div><i class="fa-solid fa-envelope" style="color: var(--accent-red); width: 20px;"></i> jamie.thompson@fightfactory.mcr</div>
+                                    <div><i class="fa-solid fa-phone" style="color: var(--accent-red); width: 20px;"></i> +44 7700 900123</div>
+                                    <div><i class="fa-solid fa-location-dot" style="color: var(--accent-red); width: 20px;"></i> Manchester, UK</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-user-pen"></i> Emergency Contact & Medical Info</h3>
+                                </div>
+                                <form onsubmit="event.preventDefault(); showToast('Profile info updated successfully!', 'success');">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                        <div>
+                                            <label class="form-group label">Emergency Contact Name</label>
+                                            <input type="text" class="form-control" value="Sarah Thompson (Wife)">
+                                        </div>
+                                        <div>
+                                            <label class="form-group label">Emergency Contact Phone</label>
+                                            <input type="text" class="form-control" value="+44 7700 900456">
+                                        </div>
+                                        <div style="grid-column: span 2;">
+                                            <label class="form-group label">Medical Notes / Allergies</label>
+                                            <input type="text" class="form-control" value="None reported. Approved for high-intensity sparring.">
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 20px; text-align: right;">
+                                        <button type="submit" class="btn btn-primary">Save Profile Updates</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 10: REFER A FRIEND -->
+                <section id="view-referral" class="portal-view">
+                    <div class="welcome-banner" style="margin-bottom: 24px; border-color: rgba(245, 158, 11, 0.4);">
+                        <div class="welcome-text">
+                            <h2><i class="fa-solid fa-gift" style="color: var(--accent-gold);"></i> REFER A FRIEND, GET A FREE MONTH</h2>
+                            <p>For every friend who joins Fight Factory Manchester using your code, you both get 1 Month Free on your membership!</p>
+                        </div>
+                    </div>
+
+                    <div class="grid-12">
+                        <div class="col-6">
+                            <div class="card" style="text-align: center;">
+                                <h3>Your Unique Referral Code</h3>
+                                <div style="margin: 20px 0; background: var(--bg-base); padding: 18px; border-radius: var(--radius-sm); border: 2px dashed var(--accent-gold); font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-gold);">
+                                    JAMIE-FFM2024
+                                </div>
+                                <div style="display: flex; gap: 12px; justify-content: center;">
+                                    <button class="btn btn-gold" onclick="copyReferralCode()"><i class="fa-solid fa-copy"></i> Copy Code</button>
+                                    <button class="btn btn-primary" onclick="shareWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-clock-rotate-left"></i> Referral History</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Friend Name</th>
+                                                <th>Joined Date</th>
+                                                <th>Reward Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Mark Davies</td>
+                                                <td>June 12, 2026</td>
+                                                <td><span class="badge badge-green">1 Month Free Applied</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Chris Taylor</td>
+                                                <td>July 04, 2026</td>
+                                                <td><span class="badge badge-green">1 Month Free Applied</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alex Miller</td>
+                                                <td>Pending</td>
+                                                <td><span class="badge badge-gold">Invite Sent</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- FOOTER CREDIT -->
+            <footer class="portal-footer">
+                Built by Deekshant Sharma — Want this as your live website? WhatsApp: <a href="https://wa.me/917737077479" target="_blank">+91 77370 77479</a>
+            </footer>
+        </main>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <nav class="mobile-bottom-nav">
+        <a class="mobile-nav-item active" onclick="switchTab('dashboard', this)">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Home</span>
+        </a>
+        <a class="mobile-nav-item" onclick="switchTab('booking', this)">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Classes</span>
+        </a>
+        <a class="mobile-nav-item" onclick="switchTab('workout', this)">
+            <i class="fa-solid fa-dumbbell"></i>
+            <span>Workout</span>
+        </a>
+        <a class="mobile-nav-item" onclick="switchTab('progress', this)">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Progress</span>
+        </a>
+        <a class="mobile-nav-item" onclick="switchTab('profile', this)">
+            <i class="fa-solid fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- NOTIFICATION DRAWER -->
+    <div class="notification-drawer" id="notif-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-bell" style="color: var(--accent-red);"></i> Notifications</h3>
+            <button class="icon-btn" onclick="toggleNotifications()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-body">
+            <div class="notif-item unread">
+                <div>
+                    <div style="font-weight: 700; font-size: 0.88rem;">Class Reminder</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Competition Sparring is scheduled for Thursday at 6:00 PM.</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 4px;">2 hours ago</div>
+                </div>
+            </div>
+
+            <div class="notif-item unread">
+                <div>
+                    <div style="font-weight: 700; font-size: 0.88rem;">Achievement Unlocked! 🏆</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">You completed 40+ classes! 50 Classes Badge is almost yours.</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 4px;">1 day ago</div>
+                </div>
+            </div>
+
+            <div class="notif-item">
+                <div>
+                    <div style="font-weight: 700; font-size: 0.88rem;">Coach Sean Krool</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Great effort in Tuesday's sparring technical drills, Jamie!</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 4px;">3 days ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Tab switching logic
+        function switchTab(viewId, el) {
+            document.querySelectorAll('.portal-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            const targetView = document.getElementById('view-' + viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+
+            // Update nav selection
+            if (el) {
+                document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                el.classList.add('active');
+            }
+
+            // Update title
+            const titleMap = {
+                'dashboard': 'Dashboard Overview',
+                'booking': 'Class Booking & Timetable',
+                'workout': 'Workout Log & Records',
+                'progress': 'Progress Charts & Metrics',
+                'goals': 'Goals & Gym Badges',
+                'ai-workouts': 'AI Fight Assistant',
+                'nutrition': 'Nutrition & Hydration',
+                'membership': 'Membership & Billing',
+                'profile': 'Member Profile',
+                'referral': 'Refer a Friend'
+            };
+            document.getElementById('view-title').innerText = titleMap[viewId] || 'Member Portal';
+
+            // Re-render charts if progress tab opened
+            if (viewId === 'progress') {
+                initCharts();
+            }
+        }
+
+        // Login handling
+        function handleLogin(e) {
+            e.preventDefault();
+            document.getElementById('login-screen').classList.add('hidden');
+            showToast('Welcome back, Jamie Thompson!', 'success');
+            animateCounters();
+        }
+
+        function logout() {
+            document.getElementById('login-screen').classList.remove('hidden');
+            showToast('Signed out successfully.', 'info');
+        }
+
+        // Toast Notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-info';
+            const color = type === 'success' ? '#22C55E' : '#DC2626';
+            toast.innerHTML = `<i class="fa-solid ${icon}" style="color: ${color}; font-size: 1.2rem;"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 300ms ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Toggle Notifications Drawer
+        function toggleNotifications() {
+            document.getElementById('notif-drawer').classList.toggle('open');
+        }
+
+        // Class booking toggle
+        function toggleBookClass(btn, className) {
+            if (btn.innerText.includes('Booked')) {
+                btn.innerText = 'Book Spot';
+                btn.className = 'btn btn-primary';
+                showToast('Cancelled booking for ' + className, 'info');
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Booked';
+                btn.className = 'btn btn-secondary';
+                btn.style.borderColor = '#22C55E';
+                btn.style.color = '#22C55E';
+                showToast('Successfully booked spot for ' + className, 'success');
+            }
+        }
+
+        // Class Filter
+        function filterClasses(category) {
+            const items = document.querySelectorAll('.class-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Add workout log
+        function addWorkoutLog(e) {
+            e.preventDefault();
+            const type = document.getElementById('w-type').value;
+            const duration = document.getElementById('w-duration').value + ' mins';
+            const rounds = document.getElementById('w-rounds').value + ' Rounds';
+            const intensity = document.getElementById('w-intensity').value;
+            const notes = document.getElementById('w-notes').value || 'Pushed hard through all sets.';
+
+            const table = document.getElementById('workout-history-table').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow(0);
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            newRow.innerHTML = `
+                <td>${today}</td>
+                <td>${type}</td>
+                <td>${duration}</td>
+                <td>${rounds}</td>
+                <td><span class="badge badge-red">${intensity.split(' ')[0]}</span></td>
+                <td>${notes}</td>
+            `;
+
+            showToast('Workout successfully saved!', 'success');
+            document.getElementById('w-notes').value = '';
+        }
+
+        // Water Intake
+        let waterTotal = 2.75;
+        function addWater(amount) {
+            waterTotal = Math.min(3.5, waterTotal + amount);
+            document.getElementById('water-count').innerText = waterTotal.toFixed(2);
+            const pct = Math.min(100, (waterTotal / 3.5) * 100);
+            document.getElementById('water-bar').style.width = pct + '%';
+            showToast(`Added ${amount * 1000}ml water!`, 'success');
+        }
+
+        // Referral Copy
+        function copyReferralCode() {
+            navigator.clipboard.writeText('JAMIE-FFM2024');
+            showToast('Referral code JAMIE-FFM2024 copied to clipboard!', 'success');
+        }
+
+        function shareWhatsApp() {
+            const text = encodeURIComponent('Join Fight Factory Manchester with my code JAMIE-FFM2024 and get 1 Month Free!');
+            window.open('https://wa.me/?text=' + text, '_blank');
+        }
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-counter]');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-counter');
+                let count = 0;
+                const speed = target / 30;
+                const updateCount = () => {
+                    count += speed;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count).toLocaleString() + (target === 14 ? ' Days' : '');
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target.toLocaleString() + (target === 14 ? ' Days' : '');
+                    }
+                };
+                updateCount();
+            });
+        }
+
+        // Timer Countdown
+        function startCountdown() {
+            let totalSeconds = 2 * 3600 + 14 * 60 + 32;
+            setInterval(() => {
+                if (totalSeconds <= 0) return;
+                totalSeconds--;
+                const hrs = Math.floor(totalSeconds / 3600);
+                const mins = Math.floor((totalSeconds % 3600) / 60);
+                const secs = totalSeconds % 60;
+                document.getElementById('countdown-timer').innerText = 
+                    `${hrs.toString().padStart(2, '0')}h ${mins.toString().padStart(2, '0')}m ${secs.toString().padStart(2, '0')}s`;
+            }, 1000);
+        }
+
+        // AI Recommendation Generator
+        function generateAIRoutine() {
+            showToast('AI recalculating fight conditioning protocols...', 'info');
+        }
+
+        // Chart.js Initializations
+        let chartsInitialized = false;
+        function initCharts() {
+            if (chartsInitialized) return;
+            chartsInitialized = true;
+
+            Chart.defaults.color = '#8E8E93';
+            Chart.defaults.font.family = 'Space Grotesk';
+
+            // 1. Weight Chart
+            new Chart(document.getElementById('weightChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [
+                        {
+                            label: 'Weight (kg)',
+                            data: [84.5, 83.0, 82.2, 81.5, 80.8, 80.0],
+                            borderColor: '#DC2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 2. Strength Chart
+            new Chart(document.getElementById('strengthChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [
+                        { label: 'Deadlift (kg)', data: [140, 145, 150, 155, 158, 160], borderColor: '#F59E0B' },
+                        { label: 'Back Squat (kg)', data: [110, 115, 120, 122, 128, 130], borderColor: '#60A5FA' },
+                        { label: 'Bench Press (kg)', data: [90, 95, 98, 100, 102, 105], borderColor: '#22C55E' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 3. Attendance Chart
+            new Chart(document.getElementById('attendanceChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [{
+                        label: 'Classes Attended',
+                        data: [6, 8, 9, 7, 10, 2],
+                        backgroundColor: '#DC2626',
+                        borderRadius: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 4. Radar Assessment Chart
+            new Chart(document.getElementById('assessmentChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Stamina', 'Power', 'Technique', 'Defense', 'Footwork', 'Ring IQ'],
+                    datasets: [{
+                        label: 'Coach Assessment',
+                        data: [88, 90, 82, 85, 78, 86],
+                        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                        borderColor: '#F59E0B',
+                        pointBackgroundColor: '#F59E0B'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        // On Load Initializers
+        window.addEventListener('DOMContentLoaded', () => {
+            startCountdown();
+            animateCounters();
+        });
+    </script>
+</body>
+</html>
