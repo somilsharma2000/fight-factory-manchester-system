@@ -1,1599 +1,347 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fight Factory Manchester — Boxing & MMA Gym | Real Combat. No Gimmicks.</title>
-<link rel="canonical" href="https://somilsharma2000.github.io/fight-factory-manchester-system/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Fight Factory Manchester">
-<meta property="og:description" content="Boxing and MMA gym in Manchester. Real combat, no gimmicks.">
-<meta property="og:url" content="https://somilsharma2000.github.io/fight-factory-manchester-system/">
-    <meta name="description" content="Manchester's premier boxing & MMA gym. Founded by Sean Krool (25+ years world championship level). Boxing, Muay Thai, BJJ, MMA & S&C. Gate 3, Unit 16B Lord North St, Manchester.">
-    <meta name="keywords" content="boxing gym manchester, mma gym manchester, muay thai manchester, bjj manchester, fight factory manchester, sean krool, combat sports manchester">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-deep: #050506;
-            --bg-base: #0A0A0C;
-            --bg-card: #141417;
-            --bg-card-hover: #1C1C20;
-            --bg-input: #121216;
-            --accent: #DC2626;
-            --accent-bright: #EF4444;
-            --accent-glow: rgba(220, 38, 38, 0.25);
-            --gold: #F59E0B;
-            --gold-glow: rgba(245, 158, 11, 0.2);
-            --text-main: #FAFAFA;
-            --text-muted: #A1A1AA;
-            --text-dim: #71717A;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.18);
-            --border-accent: rgba(220, 38, 38, 0.4);
-            --font-heading: 'Space Grotesk', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --r-sm: 8px;
-            --r-md: 12px;
-            --r-lg: 16px;
-            --r-xl: 24px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-family: var(--font-body);
-            background: var(--bg-deep);
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
-
-        body {
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            line-height: 1.05;
-            font-weight: 700;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-            object-fit: cover;
-        }
-
-        .red-text { color: var(--accent); }
-        .gold-text { color: var(--gold); }
-        .muted-text { color: var(--text-muted); }
-
-        .container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        section {
-            padding: 100px 0;
-            position: relative;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 14px 28px;
-            border-radius: var(--r-md);
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #ffffff;
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-bright);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-            border-color: var(--border-hover);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--text-main);
-            transform: translateY(-2px);
-        }
-
-        .btn-gold {
-            background: var(--gold);
-            color: #0A0A0C;
-            box-shadow: 0 4px 20px var(--gold-glow);
-        }
-
-        .btn-gold:hover {
-            background: #FBBF24;
-            transform: translateY(-2px);
-        }
-
-        /* Header / Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(5, 5, 6, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-heading);
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-        }
-
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: var(--accent);
-            border-radius: var(--r-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #fff;
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            list-style: none;
-        }
-
-        .nav-link {
-            font-family: var(--font-heading);
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--accent);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding-top: 180px;
-            padding-bottom: 120px;
-            background: radial-gradient(circle at 50% 30%, rgba(220, 38, 38, 0.15) 0%, rgba(5, 5, 6, 0.95) 70%), url('https://images.unsplash.com/photo-1549719386-74dfcbfcfac6?w=1600&q=80') center/cover no-repeat;
-            position: relative;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(5,5,6,0.7) 0%, rgba(5,5,6,0.95) 100%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(220, 38, 38, 0.12);
-            border: 1px solid var(--border-accent);
-            border-radius: 50px;
-            font-family: var(--font-heading);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent-bright);
-            margin-bottom: 24px;
-        }
-
-        .hero-title {
-            font-size: clamp(44px, 7vw, 84px);
-            margin-bottom: 20px;
-            line-height: 0.95;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.8);
-        }
-
-        .hero-tagline {
-            font-size: clamp(18px, 2.5vw, 24px);
-            color: var(--text-muted);
-            margin-bottom: 36px;
-            max-width: 760px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 400;
-        }
-
-        .hero-buttons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 60px;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            border-top: 1px solid var(--border);
-            padding-top: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-family: var(--font-heading);
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--accent-bright);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 6px;
-            letter-spacing: 0.05em;
-        }
-
-        /* Section Headers */
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 60px;
-        }
-
-        .section-subtitle {
-            font-family: var(--font-heading);
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--accent);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .section-title {
-            font-size: clamp(32px, 4vw, 52px);
-            margin-bottom: 16px;
-        }
-
-        .section-desc {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-
-        /* About Section */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .about-image-wrapper {
-            position: relative;
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .about-image-wrapper img {
-            width: 100%;
-            height: 520px;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-        }
-
-        .about-experience-badge {
-            position: absolute;
-            bottom: 24px;
-            right: 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-accent);
-            padding: 20px;
-            border-radius: var(--r-md);
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 32px;
-        }
-
-        .feature-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: var(--r-md);
-        }
-
-        .feature-box i {
-            font-size: 24px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .feature-box h4 {
-            font-size: 16px;
-            margin-bottom: 6px;
-        }
-
-        .feature-box p {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* Programs Section */
-        .programs-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .program-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .program-card:hover {
-            border-color: var(--border-accent);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-        }
-
-        .program-img {
-            height: 220px;
-            width: 100%;
-            position: relative;
-        }
-
-        .program-tag {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            background: var(--accent);
-            color: #fff;
-            font-family: var(--font-heading);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: var(--r-sm);
-            text-transform: uppercase;
-        }
-
-        .program-body {
-            padding: 24px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .program-title {
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .program-desc {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 20px;
-            flex: 1;
-        }
-
-        /* Schedule Section */
-        .schedule-table-wrapper {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            overflow-x: auto;
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            min-width: 700px;
-        }
-
-        .schedule-table th {
-            background: rgba(255, 255, 255, 0.03);
-            font-family: var(--font-heading);
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent-bright);
-            padding: 18px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .schedule-table td {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        .schedule-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .schedule-table tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .badge-level {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            background: rgba(255,255,255,0.08);
-            color: var(--text-muted);
-        }
-
-        /* Trainers Section */
-        .trainers-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
-
-        .trainer-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .trainer-card:hover {
-            border-color: var(--border-accent);
-            transform: translateY(-6px);
-        }
-
-        .trainer-img {
-            height: 280px;
-            width: 100%;
-        }
-
-        .trainer-info {
-            padding: 20px;
-        }
-
-        .trainer-name {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-
-        .trainer-role {
-            color: var(--accent);
-            font-family: var(--font-heading);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .trainer-bio {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* Membership Plans */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            align-items: stretch;
-        }
-
-        .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            padding: 36px 28px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .pricing-card.popular {
-            border-color: var(--accent);
-            background: linear-gradient(180deg, rgba(220, 38, 38, 0.08) 0%, var(--bg-card) 100%);
-            transform: scale(1.03);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: #fff;
-            font-family: var(--font-heading);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 4px 14px;
-            border-radius: 50px;
-            letter-spacing: 0.1em;
-        }
-
-        .plan-name {
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .plan-price {
-            font-family: var(--font-heading);
-            font-size: 44px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
-
-        .plan-price span {
-            font-size: 16px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .plan-features {
-            list-style: none;
-            margin: 24px 0 36px;
-            flex: 1;
-        }
-
-        .plan-features li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 14px;
-        }
-
-        .plan-features li i {
-            color: var(--accent);
-            font-size: 14px;
-        }
-
-        /* Facilities Section */
-        .facilities-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .facility-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-md);
-            padding: 24px;
-            text-align: center;
-        }
-
-        .facility-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(220, 38, 38, 0.1);
-            border-radius: var(--r-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-            font-size: 24px;
-            color: var(--accent);
-        }
-
-        /* Testimonials Section */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .testimonial-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .stars {
-            color: var(--gold);
-            margin-bottom: 16px;
-        }
-
-        .testimonial-quote {
-            font-size: 15px;
-            color: var(--text-muted);
-            font-style: italic;
-            margin-bottom: 24px;
-        }
-
-        .author-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .author-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-heading);
-            font-weight: 700;
-        }
-
-        .author-name {
-            font-family: var(--font-heading);
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .author-role {
-            font-size: 12px;
-            color: var(--text-dim);
-        }
-
-        /* QR Checkin & Contact Layout */
-        .qr-contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-
-        .qr-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-accent);
-            border-radius: var(--r-lg);
-            padding: 36px;
-            text-align: center;
-            box-shadow: 0 0 30px var(--accent-glow);
-        }
-
-        .contact-form-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            padding: 36px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-family: var(--font-heading);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--r-sm);
-            padding: 14px 16px;
-            color: var(--text-main);
-            font-family: var(--font-body);
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        /* Footer */
-        .footer {
-            background: #020203;
-            border-top: 1px solid var(--border);
-            padding: 80px 0 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .footer-about p {
-            color: var(--text-dim);
-            font-size: 14px;
-            margin-top: 16px;
-            max-width: 320px;
-        }
-
-        .footer-heading {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: var(--text-main);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border);
-            padding-top: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            color: var(--text-dim);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 16px;
-        }
-
-        .social-icons a {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        /* Responsive Media Queries */
-        @media (max-width: 1024px) {
-            .programs-grid, .trainers-grid, .pricing-grid, .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .facilities-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .about-grid, .qr-contact-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-            .mobile-toggle {
-                display: block;
-            }
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .programs-grid, .trainers-grid, .pricing-grid, .testimonials-grid, .facilities-grid {
-                grid-template-columns: 1fr;
-            }
-            .pricing-card.popular {
-                transform: none;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-        }
-    </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "HealthClub", "name": "Fight Factory Manchester", "url": "https://somilsharma2000.github.io/fight-factory-manchester-system/", "description": "Boxing and MMA gym in Manchester. Real combat, no gimmicks.", "publisher": {"@type": "Organization", "name": "Beyond Pixells", "url": "https://somilsharma2000.github.io/beyond-pixells/"}}</script>
-</head>
-<body>
-
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="brand-logo">
-                <div class="logo-icon"><i class="fa-solid fa-boxing-glove"></i></div>
-                <span>FIGHT FACTORY <span class="red-text">MCR</span></span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Boxing and MMA gym in Manchester. Real combat, no gimmicks. Boxing, Muay Thai, BJJ, MMA and Junior Champions with world-class coaching. Day pass £10, from £45/month." />
+    <title>Fight Factory Manchester | Boxing & MMA Gym — Real Combat. No Gimmicks.</title>
+    <link rel="canonical" href="https://somilsharma2000.github.io/fight-factory-manchester-system/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Fight Factory Manchester — Real Combat. No Gimmicks.">
+    <meta property="og:description" content="Boxing and MMA gym in Manchester: 18ft raised ring, heavy bag wall, Dollamur mat arena. World-class coaching. Free trial session.">
+    <meta property="og:url" content="https://somilsharma2000.github.io/fight-factory-manchester-system/">
+    <meta name="theme-color" content="#08090C">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Beyond Pixells shared design system (tokens + v2 motion & lighting) -->
+    <link rel="stylesheet" href="https://somilsharma2000.github.io/beyond-pixells/assets/bp-design-system.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HealthClub", "name": "Fight Factory Manchester", "url": "https://somilsharma2000.github.io/fight-factory-manchester-system/", "description": "Boxing and MMA gym in Manchester. Real combat, no gimmicks.", "telephone": "+44-7746-661931", "priceRange": "£45", "address": {"@type": "PostalAddress", "streetAddress": "Gate 3, Unit 16B Lord North Street", "addressLocality": "Manchester", "postalCode": "M40 2HJ", "addressCountry": "GB"}, "sameAs": ["https://www.instagram.com/fightfactorymcr/", "https://www.facebook.com/p/Fight-Factory-MCR-100072137314331/"], "publisher": {"@type": "Organization", "name": "Beyond Pixells", "url": "https://somilsharma2000.github.io/beyond-pixells/"}}</script>
+  </head>
+  <body class="bp-noise-canvas">
+    <div class="bp-scroll-progress-bar"></div>
+    <div class="site-shell">
+
+      <header class="site-header bp-nav-sticky" id="top">
+        <a class="brand" href="#top" aria-label="Fight Factory Manchester home">
+          <span class="brand-mark">F</span>
+          <span id="brand-name">FIGHT FACTORY</span>
+        </a>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#training">Programs</a>
+          <a href="#classes">Timetable</a>
+          <a href="#trainers">Coaches</a>
+          <a href="#membership">Memberships</a>
+          <a href="#facilities">Facilities</a>
+          <a href="#qr-checkin">Check-in</a>
+          <a href="#trial">Trial</a>
+        </nav>
+        <div class="header-actions">
+          <a class="member-login-link" data-gymos-login href="#">Member Login</a>
+          <a class="button button-primary bp-magnetic-btn" data-contact="whatsApp" href="#" target="_blank" rel="noopener">WhatsApp us <span>↗</span></a>
+        </div>
+      </header>
+
+      <main>
+        <!-- HERO -->
+        <section id="hero" class="hero section-pad">
+          <div class="eyebrow bp-hero-step" style="--bp-hero-delay:0ms"><span class="dot"></span><span id="location-label">MANCHESTER · REAL COMBAT</span></div>
+          <div class="hero-grid">
+            <div>
+              <h1 class="bp-hero-step" style="--bp-hero-delay:100ms">Real <span class="hl">combat.</span><br />No gimmicks.</h1>
+              <p class="hero-copy bp-hero-step" style="--bp-hero-delay:220ms" id="public-description">Boxing, Muay Thai, BJJ and MMA with world-class coaching — 25+ years at championship level. Free trial session, day pass £10, from £45/month.</p>
+              <div class="hero-actions bp-hero-step" style="--bp-hero-delay:340ms">
+                <a class="button button-primary bp-magnetic-btn" data-contact="whatsApp" href="#" target="_blank" rel="noopener">Book your free trial session <span>↗</span></a>
+                <a class="button button-ghost" href="#trial">Use the trial form</a>
+              </div>
+              <p class="micro-copy bp-hero-step" style="--bp-hero-delay:460ms">⚡ Gym OS connected &nbsp;·&nbsp; QR express check-in &nbsp;·&nbsp; World-class coaching &nbsp;·&nbsp; No long-term contracts</p>
+            </div>
+            <aside class="hero-card bp-hero-step bp-spotlight-card" style="--bp-hero-delay:300ms" aria-label="Fight Factory Manchester philosophy">
+              <p class="card-kicker">THE MEMBER BRIEF</p>
+              <blockquote>“Zero ego.<br />Real <span class="hl">fight craft.”</span></blockquote>
+              <div class="steps">
+                <span><b>01</b>Assess</span>
+                <span><b>02</b>Train</span>
+                <span><b>03</b>Repeat</span>
+              </div>
+              <p class="hero-card-note">Your membership, bookings and check-ins run on the Gym OS member portal.</p>
+            </aside>
+          </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="statement-band">
+          <div class="statement-side">01 / ABOUT THE CLUB</div>
+          <div data-reveal>
+            <p class="eyebrow-text">A REAL COMBAT GYM</p>
+            <h2>World-class coaching. Zero ego culture.</h2>
+            <p>Fight Factory is a genuine combat gym: an 18ft raised ring, heavy bag wall, Dollamur mat arena and an iron & S&C zone — with coaches who've prepped world-championship camps. Integrated with Gym OS for instant lead response, express QR check-in and member tracking.</p>
+            <div class="about-stats-grid">
+              <div class="stat-item bp-spotlight-card"><span class="stat-num">25+</span><span class="stat-label">Years at world championship level</span></div>
+              <div class="stat-item bp-spotlight-card"><span class="stat-num">5</span><span class="stat-label">Disciplines: Boxing · Muay Thai · BJJ · MMA · S&C</span></div>
+              <div class="stat-item bp-spotlight-card"><span class="stat-num">£10</span><span class="stat-label">Day pass · from £45/month</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROGRAMS -->
+        <section id="training" class="section-pad feature-grid">
+          <div class="feature-intro" data-reveal>
+            <p class="eyebrow-text">02 / DISCIPLINES</p>
+            <h2>Every discipline.<br /><span class="hl">One factory.</span></h2>
+            <p>Boxing, Muay Thai, Brazilian Jiu-Jitsu, MMA, Junior Champions and Strength & Conditioning — coached by specialists in each.</p>
+          </div>
+          <div class="program-grid">
+            <article class="program-card bp-spotlight-card" data-reveal>
+              <p>01</p>
+              <div>
+                <h3>Boxing</h3>
+                <span>Foundation tech, footwork, mitt work and competition sparring — from first wrap to fight prep at championship level.</span>
+              </div>
+            </article>
+            <article class="program-card bp-spotlight-card" data-reveal>
+              <p>02</p>
+              <div>
+                <h3>Muay Thai & MMA</h3>
+                <span>Clinch strategy, Dutch kickboxing drills, wall work, takedowns and BJJ submission grappling — gi and no-gi.</span>
+              </div>
+            </article>
+            <article class="program-card bp-spotlight-card" data-reveal>
+              <p>03</p>
+              <div>
+                <h3>S&C & Junior Champions</h3>
+                <span>Combat strength & conditioning with weight-cut and fight-endurance protocols, plus Junior Boxing for ages 8–16.</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- TIMETABLE (filterable) -->
+        <section id="classes" class="section-pad split-section">
+          <div data-reveal>
+            <p class="eyebrow-text">03 / WEEKLY TIMETABLE</p>
+            <h2>Twelve sessions.<br /><span class="hl">Real coaching.</span></h2>
+            <p>Every class is coached by a specialist — book your spot on WhatsApp and it lands directly with the team.</p>
+            <a href="#trial" class="text-link">Ask about class availability <span>→</span></a>
+          </div>
+          <div class="timetable-wrap" data-reveal>
+            <div class="filter-chips" id="class-filters" role="tablist" aria-label="Filter classes by type"></div>
+            <div class="class-list-grid" id="class-grid"></div>
+          </div>
+        </section>
+
+        <!-- COACHES (config-driven, never invented) -->
+        <section id="trainers" class="section-pad people-section-full">
+          <div class="trainers-header" data-reveal>
+            <p class="eyebrow-text">04 / EXPERT COACHES</p>
+            <h2>Coaching that<br /><span class="hl">stays personal.</span></h2>
+            <p>Coaches who've prepped world-championship camps, fought pro, and designed fight-endurance programs — real people, real credentials.</p>
+          </div>
+          <div class="trainers-grid" id="trainers-grid"></div>
+        </section>
+
+        <!-- MEMBERSHIPS (config-driven ₹ plans) -->
+        <section id="membership" class="membership-wrap">
+          <div class="membership-copy" data-reveal>
+            <p class="eyebrow-text">05 / MEMBERSHIP TIERS</p>
+            <h2>Join with clarity.<br /><span class="hl">Transparent pricing.</span></h2>
+            <p>Three honest tiers: £10 day pass, £45/month Factory Standard, £75/month Pro Combat Unlimited with every discipline and sparring. No long-term contracts.</p>
+          </div>
+          <div class="membership-cards-grid" id="plans-grid"></div>
+        </section>
+
+        <!-- FACILITIES -->
+        <section id="facilities" class="facility-grid-four">
+          <div class="facility-panel lead-panel" data-reveal>
+            <p class="eyebrow-text">06 / FACILITIES</p>
+            <h2>Built for focus.<br /><span class="hl">Crafted for work.</span></h2>
+            <p>A real combat gym built for work: 18ft raised ring, heavy bag wall, Dollamur mat arena and an iron & S&C zone.</p>
+          </div>
+          <div class="facility-panel bp-spotlight-card" data-reveal>
+            <p class="card-kicker">THE EQUIPMENT</p>
+            <div class="equipment-lines">
+              <span>18FT RAISED RING</span>
+              <span>HEAVY BAG WALL</span>
+              <span>DOLLAMUR MAT ARENA &amp; IRON ZONE</span>
+            </div>
+          </div>
+          <div class="facility-panel bp-spotlight-card" data-reveal>
+            <p class="card-kicker">COACHING</p>
+            <h3>Fight Prep</h3>
+            <p>Priority fight prep coaching on Pro Combat, with weight-cut protocols and fight endurance programs designed by our S&C specialist.</p>
+          </div>
+          <div class="facility-panel bp-spotlight-card" data-reveal>
+            <p class="card-kicker">CLASS HOURS</p>
+            <h3>Mon–Fri from 06:30</h3>
+            <p>Sat from 09:30 · full timetable above. Express QR check-in with Gym OS.</p>
+          </div>
+        </section>
+
+        <!-- WHY MEMBERS STAY (honest — feature facts, not invented reviews) -->
+        <section id="testimonials" class="section-pad testimonials-section">
+          <div class="testimonials-header" data-reveal>
+            <p class="eyebrow-text">07 / WHY MEMBERS STAY</p>
+            <h2>The connected<br /><span class="hl">difference.</span></h2>
+            <p>What changes when your membership runs on a real operating system.</p>
+          </div>
+          <div class="testimonials-grid">
+            <article class="testimonial-card bp-spotlight-card" data-reveal>
+              <div class="ico bp-icon-hover">⚡</div>
+              <h3>Book in seconds</h3>
+              <blockquote>Schedule classes and sessions from the member portal — no phone calls, no waiting.</blockquote>
+            </article>
+            <article class="testimonial-card bp-spotlight-card" data-reveal>
+              <div class="ico bp-icon-hover">🛡️</div>
+              <h3>Never lose a payment</h3>
+              <blockquote>Renewals and dues stay visible. Reminders arrive on WhatsApp before anything lapses.</blockquote>
+            </article>
+            <article class="testimonial-card bp-spotlight-card" data-reveal>
+              <div class="ico bp-icon-hover">📊</div>
+              <h3>See your progress</h3>
+              <blockquote>Check-ins, attendance and training history — yours, in the portal, always.</blockquote>
+            </article>
+          </div>
+          <div id="reviews-badge" class="reviews-badge" hidden>
+            <a class="reviews-link" id="reviews-link" href="#" target="_blank" rel="noopener">
+              <span class="g-logo">G</span>
+              <span><b id="reviews-rating"></b> on Google · <span id="reviews-count"></span> reviews</span>
+              <span class="stars" id="reviews-stars"></span>
             </a>
+          </div>
+        </section>
 
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#programs" class="nav-link">Programs</a></li>
-                <li><a href="#schedule" class="nav-link">Schedule</a></li>
-                <li><a href="#trainers" class="nav-link">Trainers</a></li>
-                <li><a href="#pricing" class="nav-link">Pricing</a></li>
-                <li><a href="#facilities" class="nav-link">Facilities</a></li>
-                <li><a href="#checkin" class="nav-link">QR Check-In</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-
-            <div class="nav-actions">
-                <a href="./portal/index.html" class="btn btn-secondary" data-gymos-login>Member Portal</a>
-                <a href="./dashboard/index.html" class="btn btn-primary" data-gymos-dashboard>Staff Dashboard</a>
+        <!-- QR CHECK-IN -->
+        <section id="qr-checkin" class="section-pad qr-section">
+          <div class="qr-container">
+            <div class="qr-text" data-reveal>
+              <p class="eyebrow-text">08 / MEMBER EXPRESS CHECK-IN</p>
+              <h2>Touchless QR Check-in</h2>
+              <p>Scan your personal QR code at the front desk terminal or open it on your phone to log your visit instantly into Gym OS.</p>
+              <div class="qr-badges">
+                <span class="qr-badge">⚡ Gym OS Connected</span>
+                <span class="qr-badge">✓ Contactless</span>
+              </div>
             </div>
+            <div class="qr-box-wrap bp-spotlight-card" data-reveal><div data-gymos-qr></div></div>
+          </div>
+        </section>
+
+        <!-- TRIAL + LEAD FORM -->
+        <section id="trial" class="trial-section section-pad">
+          <div data-reveal>
+            <p class="eyebrow-text">09 / TRIAL JOURNEY</p>
+            <h2>Start with<br /><span class="hl">a free trial.</span></h2>
+            <p>Book a free trial session, meet the coaches, train your discipline — then decide with total clarity.</p>
+            <ol class="trial-steps">
+              <li><b>01</b><span>Share your goal and contact details below.</span></li>
+              <li><b>02</b><span>A team member confirms your visit within 24 hours.</span></li>
+              <li><b>03</b><span>Train, ask questions, and decide with total clarity.</span></li>
+            </ol>
+            <div id="upi-trial" class="upi-trial" hidden>
+              <p class="upi-label" id="upi-label"></p>
+              <a class="button button-ghost" id="upi-link" href="#" target="_blank" rel="noopener">Reserve with UPI <span>↗</span></a>
+            </div>
+          </div>
+
+          <form data-gymos-lead class="lead-form bp-spotlight-card" id="trial-form" data-reveal>
+            <input type="hidden" name="interest" value="Trial Visit" />
+            <label>Full name
+              <input name="fullName" required minlength="2" autocomplete="name" placeholder="Your full name" />
+            </label>
+            <div class="form-pair">
+              <label>Phone
+                <input name="phone" type="tel" required inputmode="tel" autocomplete="tel" placeholder="Phone number" />
+              </label>
+              <label>Email
+                <input name="email" type="email" required autocomplete="email" placeholder="Email address" />
+              </label>
+            </div>
+            <label>What would you like to work on?
+              <input name="fitnessGoal" placeholder="Strength, mobility, conditioning, lifestyle..." />
+            </label>
+            <label>Additional message / Preferred visit time
+              <textarea name="message" rows="3" placeholder="Tell us your preferred time or any specific questions..."></textarea>
+            </label>
+            <label class="consent">
+              <input name="consent" type="checkbox" required />
+              <span>I agree that Fight Factory Manchester may use these details to respond to my enquiry. Managed via Gym OS.</span>
+            </label>
+            <button class="button button-primary bp-magnetic-btn form-submit" type="submit">Request a trial <span>↗</span></button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+            <p class="form-managed-note">⚡ Lead capture directly connected to Gym OS CRM</p>
+          </form>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="contact-section">
+          <div data-reveal>
+            <p class="eyebrow-text">10 / CONTACT US</p>
+            <h2>Let’s make the<br /><span class="hl">first step easy.</span></h2>
+            <p id="contact-copy">Have questions about memberships or facilities? Reach out directly via WhatsApp.</p>
+          </div>
+          <div class="contact-actions" data-reveal>
+            <a class="button button-primary bp-magnetic-btn" data-contact="whatsApp" href="#" target="_blank" rel="noopener">WhatsApp the club <span>↗</span></a>
+            <a class="button button-ghost" data-contact="instagramUrl" href="#" target="_blank" rel="noopener" hidden>Follow on Instagram <span>↗</span></a>
+            <a class="text-link" data-contact="email" href="#" hidden>Email the club <span>→</span></a>
+            <p class="contact-note" id="contact-note"></p>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-brand-col">
+            <a class="brand" href="#top">
+              <span class="brand-mark">F</span>
+              <span id="footer-brand">FIGHT FACTORY</span>
+            </a>
+            <p class="footer-tagline">Boxing and MMA gym in Manchester. Real combat, no gimmicks.</p>
+          </div>
+          <div class="footer-nav-col">
+            <h4>Navigation</h4>
+            <a href="#about">About</a>
+            <a href="#training">Programs</a>
+            <a href="#classes">Timetable</a>
+            <a href="#membership">Memberships</a>
+          </div>
+          <div class="footer-nav-col">
+            <h4>Member &amp; Staff</h4>
+            <a data-gymos-login href="#">Member Portal</a>
+            <a data-gymos-dashboard href="#">Staff Dashboard</a>
+            <a href="#qr-checkin">QR Check-in</a>
+            <a href="#trial">Book a Trial</a>
+          </div>
+          <div class="footer-contact-col">
+            <h4>Contact &amp; Social</h4>
+            <p id="footer-address">📍 Gate 3, Unit 16B Lord North Street, Manchester M40 2HJ</p>
+            <p id="footer-phone">📞 +44 7746 661931</p>
+            <div class="footer-socials">
+              <a data-contact="whatsApp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <a data-contact="instagramUrl" href="#" target="_blank" rel="noopener" hidden>Instagram</a>
+            </div>
+          </div>
         </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <div class="hero-badge">
-                <i class="fa-solid fa-fire"></i> Manchester's Premier Boxing & MMA Sanctuary
-            </div>
-            <h1 class="hero-title">FIGHT FACTORY <span class="red-text">MANCHESTER</span></h1>
-            <p class="hero-tagline">
-                REAL COMBAT. PURE TECHNIQUE. NO GIMMICKS.<br>
-                Train alongside world champions and battle-tested coaches in our industrial fight warehouse. Novice to Pro.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Book Free Trial Session</a>
-                <a href="#programs" class="btn btn-secondary">Explore Programs</a>
-                <a href="./portal/index.html" class="btn btn-secondary" data-gymos-login><i class="fa-solid fa-user-shield"></i> Member Portal</a>
-                <a href="./dashboard/index.html" class="btn btn-gold" data-gymos-dashboard><i class="fa-solid fa-chart-line"></i> Staff Dashboard</a>
-            </div>
-
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="stat-number">25+</div>
-                    <div class="stat-label">Years Pro Experience</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">3</div>
-                    <div class="stat-label">World Champions Trained</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">4.8★</div>
-                    <div class="stat-label">Google Rating (64+ Reviews)</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Authentic Fight Heritage</div>
-                </div>
-            </div>
+        <div class="footer-bottom">
+          <a class="footer-credit" href="https://somilsharma2000.github.io/beyond-pixells/" target="_blank" rel="noopener">⚡ Powered by Beyond Pixells — Gym OS</a>
+          <span>© 2026 Fight Factory Manchester. All rights reserved.</span>
+          <a href="#top">Back to top ↑</a>
         </div>
-    </section>
+      </footer>
+    </div>
 
-    <!-- ABOUT SECTION -->
-    <section id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1549719386-74dfcbfcfac6?w=800&q=80" alt="Fight Factory Gym Floor">
-                    <div class="about-experience-badge">
-                        <div class="stat-number">2016</div>
-                        <div class="stat-label">ESTABLISHED IN MANCHESTER</div>
-                    </div>
-                </div>
-                <div class="about-content">
-                    <span class="section-subtitle">OUR HERITAGE & MISSION</span>
-                    <h2 class="section-title">BORN IN THE INDUSTRIAL HEART OF <span class="red-text">MANCHESTER</span></h2>
-                    <p class="muted-text" style="margin-bottom: 16px;">
-                        Founded in 2016 by Head Coach Sean Krool, Fight Factory Manchester was built on one principle: authentic combat training without corporate gimmicks or ego.
-                    </p>
-                    <p class="muted-text" style="margin-bottom: 24px;">
-                        Located at Gate 3, Unit 16B Lord North Street, our raw industrial facility brings together 25+ years of world championship level boxing expertise. Whether you're stepping into a boxing ring for the first time or preparing for professional fight night, we forge physical endurance and mental fortitude.
-                    </p>
+    <!-- Floating WhatsApp widget -->
+    <a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+      <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.7 6L4 29l8.2-1.6c1.2.6 2.5 1 3.8 1 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 22c-1.1 0-2.2-.2-3.2-.7l-.6-.3-4.9 1 1-4.7-.3-.6c-1-1.9-1.5-3.9-1.5-6 0-5.5 4.5-10 10-10s10 4.5 10 10-4.5 10-10 10zm5.5-7.5c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.4-.5-2.6-1.6-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.6.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.8.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.4z"/></svg>
+      <span class="wa-float-label" id="wa-float-label">Chat with the club</span>
+    </a>
 
-                    <div class="about-features">
-                        <div class="feature-box">
-                            <i class="fa-solid fa-trophy"></i>
-                            <h4>World Class Coaching</h4>
-                            <p>Sean Krool has prepared elite world champions, including training work with Usyk, Crolla & Hatton camps.</p>
-                        </div>
-                        <div class="feature-box">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <h4>Zero Ego Culture</h4>
-                            <p>Every member gets respected regardless of experience level. First-timers receive full hands-on guidance.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROGRAMS SECTION -->
-    <section id="programs" style="background: var(--bg-base);">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">DISCIPLINES & TRAINING</span>
-                <h2 class="section-title">OUR COMBAT <span class="red-text">PROGRAMS</span></h2>
-                <p class="section-desc">From fundamental boxing footwork to elite MMA grappling, master real combat sports.</p>
-            </div>
-
-            <div class="programs-grid">
-                <!-- Program 1: Boxing -->
-                <div class="program-card">
-                    <div class="program-img">
-                        <img src="https://images.unsplash.com/photo-1549719386-74dfcbfcfac6?w=600&q=80" alt="Boxing Training">
-                        <span class="program-tag">FOUNDATION & PRO</span>
-                    </div>
-                    <div class="program-body">
-                        <h3 class="program-title">BOXING</h3>
-                        <p class="program-desc">Master stance, guard, footwork, Jab-Cross mechanics, heavy bag drills, mitt work, and technical sparring.</p>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Book Boxing Class</a>
-                    </div>
-                </div>
-
-                <!-- Program 2: Muay Thai -->
-                <div class="program-card">
-                    <div class="program-img">
-                        <img src="https://images.unsplash.com/photo-1517438476312-10d79c077509?w=600&q=80" alt="Muay Thai Kickboxing">
-                        <span class="program-tag">STRIKING</span>
-                    </div>
-                    <div class="program-body">
-                        <h3 class="program-title">MUAY THAI</h3>
-                        <p class="program-desc">The art of 8 limbs. Heavy shin conditioning, devastating roundhouse kicks, knee strikes, elbow control, and clinch work.</p>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Book Muay Thai</a>
-                    </div>
-                </div>
-
-                <!-- Program 3: BJJ -->
-                <div class="program-card">
-                    <div class="program-img">
-                        <img src="https://images.unsplash.com/photo-1574680096145-058831f9130c?w=600&q=80" alt="Brazilian Jiu-Jitsu">
-                        <span class="program-tag">GRAPPLING</span>
-                    </div>
-                    <div class="program-body">
-                        <h3 class="program-title">BRAZILIAN JIU-JITSU (BJJ)</h3>
-                        <p class="program-desc">Gi & No-Gi submission grappling. Takedowns, side control, guard sweeps, armbars, and choke submissions.</p>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Book BJJ Class</a>
-                    </div>
-                </div>
-
-                <!-- Program 4: MMA -->
-                <div class="program-card">
-                    <div class="program-img">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80" alt="MMA Mixed Martial Arts">
-                        <span class="program-tag">ALL COMBAT</span>
-                    </div>
-                    <div class="program-body">
-                        <h3 class="program-title">MIXED MARTIAL ARTS (MMA)</h3>
-                        <p class="program-desc">Seamless combination of striking, wrestling, cage wall control, and ground-and-pound strategy.</p>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Book MMA Class</a>
-                    </div>
-                </div>
-
-                <!-- Program 5: Kids Classes -->
-                <div class="program-card">
-                    <div class="program-img">
-                        <img src="https://images.unsplash.com/photo-1551966775-a4ddc8df057b?w=600&q=80" alt="Kids Junior Boxing">
-                        <span class="program-tag">AGES 8-16</span>
-                    </div>
-                    <div class="program-body">
-                        <h3 class="program-title">JUNIOR CHAMPIONS</h3>
-                        <p class="program-desc">Structured youth combat fitness. Build self-confidence, anti-bullying discipline, coordination, and athletic focus.</p>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Book Kids Class</a>
-                    </div>
-                </div>
-
-                <!-- Program 6: Strength & Conditioning -->
-                <div class="program-card">
-                    <div class="program-img">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Strength and Conditioning">
-                        <span class="program-tag">ATHLETIC ENDURANCE</span>
-                    </div>
-                    <div class="program-body">
-                        <h3 class="program-title">STRENGTH & CONDITIONING</h3>
-                        <p class="program-desc">Fighter-specific metabolic conditioning. Kettlebell circuits, landmine rotations, battle ropes, and explosive VO2 max work.</p>
-                        <a href="#contact" class="btn btn-secondary" style="width: 100%;">Book S&C Session</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CLASS SCHEDULE SECTION -->
-    <section id="schedule">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">TIMETABLE & AVAILABILITY</span>
-                <h2 class="section-title">WEEKLY CLASS <span class="red-text">SCHEDULE</span></h2>
-                <p class="section-desc">Over 15 sessions weekly taught by head fight coaches. Reserve your slot or walk in during open hours.</p>
-            </div>
-
-            <div class="schedule-table-wrapper">
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Day</th>
-                            <th>Time</th>
-                            <th>Class / Discipline</th>
-                            <th>Level</th>
-                            <th>Coach</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Monday</strong></td>
-                            <td>06:30 – 07:30</td>
-                            <td>Morning Boxing Conditioning</td>
-                            <td><span class="badge-level">All Levels</span></td>
-                            <td>Sean Krool</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monday</strong></td>
-                            <td>17:30 – 19:00</td>
-                            <td>Foundation Boxing Tech</td>
-                            <td><span class="badge-level">Beginner / Inter</span></td>
-                            <td>Sean Krool</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monday</strong></td>
-                            <td>19:00 – 20:30</td>
-                            <td>Muay Thai & Striking</td>
-                            <td><span class="badge-level">All Levels</span></td>
-                            <td>Elena Rostova</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tuesday</strong></td>
-                            <td>17:00 – 18:30</td>
-                            <td>BJJ Gi & No-Gi Grappling</td>
-                            <td><span class="badge-level">All Levels</span></td>
-                            <td>Marcus Vance</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tuesday</strong></td>
-                            <td>18:30 – 20:00</td>
-                            <td>MMA Wall Work & Takedowns</td>
-                            <td><span class="badge-level">Intermediate</span></td>
-                            <td>Marcus Vance</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Wednesday</strong></td>
-                            <td>17:30 – 19:00</td>
-                            <td>Competition Sparring & Fight Prep</td>
-                            <td><span class="badge-level" style="color:var(--accent);">Inter / Pro</span></td>
-                            <td>Sean Krool</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Wednesday</strong></td>
-                            <td>19:00 – 20:30</td>
-                            <td>Fight Strength & Conditioning</td>
-                            <td><span class="badge-level">All Levels</span></td>
-                            <td>Sarah Jenkins</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Thursday</strong></td>
-                            <td>17:00 – 18:30</td>
-                            <td>Boxing Footwork & Mitt Work</td>
-                            <td><span class="badge-level">All Levels</span></td>
-                            <td>Sean Krool</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Thursday</strong></td>
-                            <td>18:30 – 20:00</td>
-                            <td>BJJ Advanced Submission & Wrestling</td>
-                            <td><span class="badge-level">Inter / Pro</span></td>
-                            <td>Marcus Vance</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Friday</strong></td>
-                            <td>17:30 – 19:00</td>
-                            <td>Friday Night Sparring & Open Ring</td>
-                            <td><span class="badge-level">Members</span></td>
-                            <td>Coaches Team</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Saturday</strong></td>
-                            <td>09:30 – 11:00</td>
-                            <td>Weekend Warrior All-Combat Circuit</td>
-                            <td><span class="badge-level">All Levels</span></td>
-                            <td>Sarah Jenkins</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Saturday</strong></td>
-                            <td>11:00 – 12:00</td>
-                            <td>Junior Boxing & Champions Club</td>
-                            <td><span class="badge-level">Ages 8–16</span></td>
-                            <td>Sean Krool</td>
-                            <td><a href="#contact" class="btn btn-secondary" style="padding: 6px 14px; font-size: 11px;">Book</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- TRAINERS SECTION -->
-    <section id="trainers" style="background: var(--bg-base);">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">ELITE COACHING STAFF</span>
-                <h2 class="section-title">MEET THE <span class="red-text">COACHES</span></h2>
-                <p class="section-desc">Coached by former world champions, pro fighters, and master S&C specialists.</p>
-            </div>
-
-            <div class="trainers-grid">
-                <!-- Coach 1 -->
-                <div class="trainer-card">
-                    <img class="trainer-img" src="https://images.unsplash.com/photo-1549719386-74dfcbfcfac6?w=500&q=80" alt="Sean Krool">
-                    <div class="trainer-info">
-                        <h3 class="trainer-name">SEAN KROOL</h3>
-                        <div class="trainer-role">FOUNDER & HEAD BOXING COACH</div>
-                        <p class="trainer-bio">25+ years at world championship level. Coached & prepped camps for Usyk, Crolla, Hatton & Eubank Jr.</p>
-                    </div>
-                </div>
-
-                <!-- Coach 2 -->
-                <div class="trainer-card">
-                    <img class="trainer-img" src="https://images.unsplash.com/photo-1567013127542-490d92d5201f?w=500&q=80" alt="Coach Marcus Vance">
-                    <div class="trainer-info">
-                        <h3 class="trainer-name">MARCUS VANCE</h3>
-                        <div class="trainer-role">HEAD MMA & BJJ COACH</div>
-                        <p class="trainer-bio">Ex-Pro MMA fighter (14-3 record). BJJ Black Belt under Carlson Gracie lineage. Specialist in wall wrestling.</p>
-                    </div>
-                </div>
-
-                <!-- Coach 3 -->
-                <div class="trainer-card">
-                    <img class="trainer-img" src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=500&q=80" alt="Elena Rostova">
-                    <div class="trainer-info">
-                        <h3 class="trainer-name">ELENA ROSTOVA</h3>
-                        <div class="trainer-role">MUAY THAI HEAD COACH</div>
-                        <p class="trainer-bio">2x European Muay Thai champion (32 fight pro record). Master of clinch strategy and Dutch kickboxing drills.</p>
-                    </div>
-                </div>
-
-                <!-- Coach 4 -->
-                <div class="trainer-card">
-                    <img class="trainer-img" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80" alt="Sarah Jenkins">
-                    <div class="trainer-info">
-                        <h3 class="trainer-name">SARAH JENKINS</h3>
-                        <div class="trainer-role">COMBAT S&C SPECIALIST</div>
-                        <p class="trainer-bio">MSc Strength & Conditioning. Designs weight cut protocols, explosive power circuits, and fight endurance program.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRICING / MEMBERSHIP SECTION -->
-    <section id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">TRANSPARENT PRICING</span>
-                <h2 class="section-title">MEMBERSHIP <span class="red-text">PLANS</span></h2>
-                <p class="section-desc">No direct-debit contracts. No hidden fees. Straightforward monthly combat training.</p>
-            </div>
-
-            <div class="pricing-grid">
-                <!-- Plan 1 -->
-                <div class="pricing-card">
-                    <h3 class="plan-name">DAY PASS</h3>
-                    <div class="plan-price">£10 <span>/ drop-in</span></div>
-                    <p class="muted-text" style="font-size: 13px;">Perfect for visitors, walk-ins, or trying out a single discipline.</p>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Full day access to facility</li>
-                        <li><i class="fa-solid fa-check"></i> 1 Group class of your choice</li>
-                        <li><i class="fa-solid fa-check"></i> Open heavy bag floor access</li>
-                        <li><i class="fa-solid fa-check"></i> Showers & locker room</li>
-                    </ul>
-                    <a href="#contact" class="btn btn-secondary" style="width: 100%;">Get Day Pass</a>
-                </div>
-
-                <!-- Plan 2 (Popular) -->
-                <div class="pricing-card popular">
-                    <div class="popular-badge">MOST POPULAR</div>
-                    <h3 class="plan-name">FACTORY STANDARD</h3>
-                    <div class="plan-price">£45 <span>/ month</span></div>
-                    <p class="muted-text" style="font-size: 13px;">Comprehensive access to boxing and fitness circuits for active members.</p>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Unlimited Boxing classes</li>
-                        <li><i class="fa-solid fa-check"></i> Unlimited S&C Conditioning</li>
-                        <li><i class="fa-solid fa-check"></i> Full Open Gym access</li>
-                        <li><i class="fa-solid fa-check"></i> Free fight wraps & gear storage</li>
-                        <li><i class="fa-solid fa-check"></i> No long-term contracts</li>
-                    </ul>
-                    <a href="#contact" class="btn btn-primary" style="width: 100%;">Join Factory Standard</a>
-                </div>
-
-                <!-- Plan 3 -->
-                <div class="pricing-card">
-                    <h3 class="plan-name">PRO COMBAT UNLIMITED</h3>
-                    <div class="plan-price">£75 <span>/ month</span></div>
-                    <p class="muted-text" style="font-size: 13px;">Full access to every discipline: Boxing, Muay Thai, BJJ, MMA & Sparring.</p>
-                    <ul class="plan-features">
-                        <li><i class="fa-solid fa-check"></i> Unlimited Boxing, BJJ & Muay Thai</li>
-                        <li><i class="fa-solid fa-check"></i> Unlimited MMA & Sparring sessions</li>
-                        <li><i class="fa-solid fa-check"></i> Priority fight prep coaching</li>
-                        <li><i class="fa-solid fa-check"></i> 10% discount on 1-to-1 PT sessions</li>
-                        <li><i class="fa-solid fa-check"></i> Gym OS Express Mobile Check-In</li>
-                    </ul>
-                    <a href="#contact" class="btn btn-secondary" style="width: 100%;">Get Pro Unlimited</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FACILITIES SECTION -->
-    <section id="facilities" style="background: var(--bg-base);">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">INDUSTRIAL FIGHT SANCTUARY</span>
-                <h2 class="section-title">THE <span class="red-text">FACILITY</span></h2>
-                <p class="section-desc">Designed for high-intensity training with professional fight gear.</p>
-            </div>
-
-            <div class="facilities-grid">
-                <div class="facility-card">
-                    <div class="facility-icon"><i class="fa-solid fa-square"></i></div>
-                    <h3>18FT RAISED RING</h3>
-                    <p class="muted-text" style="font-size: 13px; margin-top: 8px;">Competition boxing ring built to professional bout standards.</p>
-                </div>
-
-                <div class="facility-card">
-                    <div class="facility-icon"><i class="fa-solid fa-drum"></i></div>
-                    <h3>HEAVY BAG WALL</h3>
-                    <p class="muted-text" style="font-size: 13px; margin-top: 8px;">20+ heavy leather, aqua, teardrop, speed and double-end bags.</p>
-                </div>
-
-                <div class="facility-card">
-                    <div class="facility-icon"><i class="fa-solid fa-layer-group"></i></div>
-                    <h3>DOLLAMUR MAT ARENA</h3>
-                    <p class="muted-text" style="font-size: 13px; margin-top: 8px;">Seamless high-density wrestling & BJJ mats for safe takedowns.</p>
-                </div>
-
-                <div class="facility-card">
-                    <div class="facility-icon"><i class="fa-solid fa-dumbbell"></i></div>
-                    <h3>IRON & S&C ZONE</h3>
-                    <p class="muted-text" style="font-size: 13px; margin-top: 8px;">Rogue rigs, bumper plates, landmines, assault bikes & sled track.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TESTIMONIALS SECTION -->
-    <section id="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">MEMBER STORIES</span>
-                <h2 class="section-title">WHAT OUR FIGHTERS <span class="red-text">SAY</span></h2>
-                <div class="stars" style="font-size: 18px; margin-top: 8px;">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    <span style="color:var(--text-main); font-size: 14px; margin-left: 8px;">4.8 / 5.0 (64 Google Reviews)</span>
-                </div>
-            </div>
-
-            <div class="testimonials-grid">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card">
-                    <div>
-                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="testimonial-quote">"Sean doesn't just train you; he builds your fight IQ from the ground up. My footwork, speed and defense reached another level within 3 months. Went 4-0 in amateur bouts."</p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author-avatar">MR</div>
-                        <div>
-                            <div class="author-name">Marcus R.</div>
-                            <div class="author-role">Amateur Middleweight Competitor</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card">
-                    <div>
-                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="testimonial-quote">"Walked in knowing nothing about boxing or Muay Thai. Lost 14kg in 6 months and built incredible conditioning. Total respect, no elitism, unbelievable community."</p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author-avatar">JT</div>
-                        <div>
-                            <div class="author-name">Jamie T.</div>
-                            <div class="author-role">Member since 2024 · Standard Plan</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card">
-                    <div>
-                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="testimonial-quote">"My 10-year-old son joined the Junior Champions program. His focus, physical posture, and discipline at school have transformed completely. Best environment in Manchester."</p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author-avatar">SM</div>
-                        <div>
-                            <div class="author-name">Sarah M.</div>
-                            <div class="author-role">Parent of Junior Member</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- QR CHECK-IN & CONTACT LEAD FORM SECTION -->
-    <section id="checkin" style="background: var(--bg-base);">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">GYM OS CONNECTED PORTAL & LEAD CAPTURE</span>
-                <h2 class="section-title">QR CHECK-IN & <span class="red-text">FREE TRIAL BOOKING</span></h2>
-            </div>
-
-            <div class="qr-contact-grid">
-                <!-- QR Checkin Card -->
-                <div class="qr-card">
-                    <span class="section-subtitle">MEMBER PORTAL</span>
-                    <h3 style="font-size: 24px; margin-bottom: 12px;">EXPRESS QR CHECK-IN</h3>
-                    <p class="muted-text" style="font-size: 14px; margin-bottom: 24px;">Scan this QR code with your mobile camera to check in automatically via Gym OS upon arrival.</p>
-                    
-                    <!-- Gym OS QR Target -->
-                    <div data-gymos-qr></div>
-
-                    <div style="margin-top: 20px;">
-                        <a href="./portal/index.html" class="btn btn-secondary" style="width: 100%;" data-gymos-login>Open Member Portal</a>
-                    </div>
-                </div>
-
-                <!-- Contact / Lead Form -->
-                <div class="contact-form-card" id="contact">
-                    <span class="section-subtitle">START YOUR JOURNEY</span>
-                    <h3 style="font-size: 24px; margin-bottom: 16px;">BOOK YOUR FREE TRIAL</h3>
-                    
-                    <form data-gymos-lead>
-                        <div class="form-group">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" name="fullName" class="form-input" placeholder="e.g. Jack Crolla" required>
-                        </div>
-
-                        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                            <div>
-                                <label class="form-label">Phone Number</label>
-                                <input type="tel" name="phone" class="form-input" placeholder="07123 456789" required>
-                            </div>
-                            <div>
-                                <label class="form-label">Email Address</label>
-                                <input type="email" name="email" class="form-input" placeholder="jack@example.com" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Primary Discipline Interest</label>
-                            <select name="interest" class="form-select">
-                                <option value="Boxing">Boxing (Foundation / Pro)</option>
-                                <option value="Muay Thai">Muay Thai & Kickboxing</option>
-                                <option value="BJJ">Brazilian Jiu-Jitsu (BJJ)</option>
-                                <option value="MMA">Mixed Martial Arts (MMA)</option>
-                                <option value="Kids Boxing">Junior Champions (Ages 8-16)</option>
-                                <option value="Strength & Conditioning">Strength & Conditioning</option>
-                                <option value="1-to-1 PT">1-to-1 Personal Training with Sean</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Message / Training Goals</label>
-                            <textarea name="message" class="form-textarea" rows="3" placeholder="Tell us your experience level or main goals..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="width: 100%; height: 50px;">
-                            <i class="fa-solid fa-paper-plane"></i> Submit Free Trial Request
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <a href="#" class="brand-logo">
-                        <div class="logo-icon"><i class="fa-solid fa-boxing-glove"></i></div>
-                        <span>FIGHT FACTORY <span class="red-text">MCR</span></span>
-                    </a>
-                    <p>Manchester's premier authentic boxing and combat sports academy. Built on grit, technique, and real fight heritage.</p>
-                    <div style="margin-top: 20px;" class="muted-text">
-                        <p><i class="fa-solid fa-location-dot red-text"></i> Gate 3, Unit 16B Lord North Street, Manchester M40 2HJ</p>
-                        <p><i class="fa-solid fa-phone red-text"></i> +44 7746 661931</p>
-                        <p><i class="fa-solid fa-envelope red-text"></i> fightfactorymcr@gmail.com</p>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="footer-heading">Disciplines</h4>
-                    <ul class="footer-links">
-                        <li><a href="#programs">Boxing</a></li>
-                        <li><a href="#programs">Muay Thai</a></li>
-                        <li><a href="#programs">Brazilian Jiu-Jitsu</a></li>
-                        <li><a href="#programs">Mixed Martial Arts</a></li>
-                        <li><a href="#programs">Junior Champions</a></li>
-                        <li><a href="#programs">Strength & Conditioning</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="footer-heading">Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="#about">About Gym</a></li>
-                        <li><a href="#schedule">Class Timetable</a></li>
-                        <li><a href="#trainers">Coaches</a></li>
-                        <li><a href="#pricing">Membership Pricing</a></li>
-                        <li><a href="#facilities">Facilities</a></li>
-                        <li><a href="#checkin">QR Check-In</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="footer-heading">System Portals</h4>
-                    <ul class="footer-links">
-                        <li><a href="./portal/index.html" data-gymos-login><i class="fa-solid fa-user"></i> Member Portal</a></li>
-                        <li><a href="./dashboard/index.html" data-gymos-dashboard><i class="fa-solid fa-gauge-high"></i> Staff Dashboard</a></li>
-                    </ul>
-                    <div class="social-icons" style="margin-top: 24px;">
-                        <a href="https://www.instagram.com/fightfactorymcr/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/p/Fight-Factory-MCR-100072137314331/" target="_blank" rel="noopener"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://wa.me/447746661931" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <div>© 2026 Fight Factory Manchester. All Rights Reserved.</div>
-                <div>
-                    <a href="./dashboard/index.html" style="color:var(--accent); font-weight: 600;" data-gymos-dashboard>Staff Dashboard</a> | Integrated with Gym OS
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- GYM OS INTEGRATION SCRIPT -->
-    <script>
-        window.GymOSConfig = { 
-            gymName: 'Fight Factory Manchester',
-            isDemo: true,
-            poweredBy: true 
-        };
-    </script>
+    <script src="./site.config.js"></script>
+    <script src="./script.js"></script>
+    <script>window.GymOSConfig = { gymName: 'Fight Factory Manchester', isDemo: true };</script>
     <script src="./gym-os-connect.js"></script>
-
-</body>
+    <script src="https://somilsharma2000.github.io/beyond-pixells/assets/bp-motion.js"></script>
+  </body>
 </html>
